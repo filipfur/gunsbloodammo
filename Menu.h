@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <vector>
 #include "SDL_ttf.h"
+#include <map>
 
 class Menu{
 
@@ -11,8 +12,7 @@ class Menu{
   void update();
   void draw(SDL_Renderer &);
 
-  int keyPressed(char);
-  void keyReleased(char);
+  int input(std::map<char,bool> &);
 
  private:
 

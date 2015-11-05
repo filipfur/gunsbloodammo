@@ -21,7 +21,7 @@ Menu::Menu(std::vector<const char*> menuItems, std::vector<const char*> optionIt
   _titleColor1 = {0, 0, 0, 255};
   _titleColor2 = {255, 255, 255 , 255};
   _breadColor = {128, 128, 128, 255};
-  _highlightColor = {255, 128, 128, 255};
+  _highlightColor = {255, 0, 0, 255};
   _bgColor = {200, 200, 200, 255};
   _currentSelection = 1;
   _subMenu = 0;
@@ -82,25 +82,28 @@ void Menu::draw(SDL_Renderer &renderer){
     if(SDL_RenderCopy(&renderer, text_texture, &src, &menuPos) != 0 ){
       std::cerr<<SDL_GetError()<<std::endl;
     }
+    SDL_DestroyTexture(text_texture);
     SDL_FreeSurface(text_surface);
   }
   
   
 }
 
-int Menu::keyPressed(char key){
+int Menu::input(std::map<char, bool> &keys){
 
-  if(key == 'W'){
+  if(keys['W']){
     if(_currentSelection != 1 && _currentSelection != 0)
       _currentSelection--;
+    keys['W'] = false;
   }
-  if(key == 'S'){
+  if(keys['S']){
     int compare = _currentItems.size() - 1;
     if(_currentSelection != compare && _currentSelection != 0)
       _currentSelection++;
+    keys['S'] = false;
   }
 
-  if(key == SDLK_SPACE){
+  if(keys[SDLK_SPACE]){
     if(_subMenu == 0){
       int compare = _currentItems.size() - 1;
       if(_currentSelection == 1){
@@ -120,12 +123,9 @@ int Menu::keyPressed(char key){
       _currentItems = _menuItems;
       _currentSelection = 1;
     }
+    keys[SDLK_SPACE] = false;
   }
 
   return 0;
-
-}
-
-void Menu::keyReleased(char key){
 
 }
