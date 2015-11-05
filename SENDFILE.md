@@ -12,3 +12,6 @@
 #
 #Lägg till alla filer i repository:t
 #git clone "https url from repository"
+#
+#Uppdatera ändringar i repo
+#git pull origin master
