@@ -18,11 +18,7 @@ void World::update(){
   _player->update();
 }
 
-int World::keyPressed(char key){
-  _player->keyPressed(key);
+int World::input(std::map<char,bool> &keys){
+  _player->input(keys);
   return 1;
-}
-
-void World::keyReleased(char key){
-  _player->keyReleased(key);
 }

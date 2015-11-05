@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <map>
 #ifndef CHAR_H
 #define CHAR_H
 
@@ -10,8 +11,7 @@ class Character{
   void draw(SDL_Renderer &, int, int);
   void update();
 
-  int keyPressed(char);
-  void keyReleased(char);
+  int input(std::map<char,bool> &);
 
  private:
 
@@ -20,7 +20,7 @@ class Character{
   double _dx, _dy;
   double _x, _y;
   int _width, _height;
-  const static int MOVESPEED = 0.1;
+  double MOVESPEED = 0.1;
   
 
 };

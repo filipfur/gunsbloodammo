@@ -37,41 +37,30 @@ void Character::update(){
 
 }
 
-int Character::keyPressed(char key){
+int Character::input(std::map<char,bool> &keys){
 
-  if(key == 'W'){
+  if(keys['W']){
     _direction = 'W';
     _dy = -MOVESPEED;
   }
-  if(key == 'A'){
-    _direction = 'A';
-    _dx = -MOVESPEED;
-  }
-  if(key == 'S'){
+  else if(keys['S']){
     _direction = 'S';
     _dy = MOVESPEED;
   }
-  if(key == 'D'){
+  else{
+    _dy = 0;
+  }
+  if(keys['A']){
+    _direction = 'A';
+    _dx = -MOVESPEED;
+  }
+  else if(keys['D']){
     _direction = 'D';
     _dx = MOVESPEED;
   }
+  else{
+    _dx = 0;
+  }
 
   return 2;
-}
-
-void Character::keyReleased(char key){
-  
-  if(key == 'W'){
-    _dy = 0;
-  }
-  if(key == 'A'){
-    _dx = 0;
-  }
-  if(key == 'S'){
-    _dy = 0;
-  }
-  if(key == 'D'){
-    _dx = 0;
-  }
-
 }

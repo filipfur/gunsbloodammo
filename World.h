@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Character.h"
 #include <SDL.h>
+#include <map>
 #ifndef WORLD_H
 #define WORLD_H
 
@@ -11,8 +12,7 @@ class World{
   void draw(SDL_Renderer &, int, int);
   void update();
   
-  int keyPressed(char);
-  void keyReleased(char);
+  int input(std::map<char,bool> &);
  private:
   Character* _player;
 

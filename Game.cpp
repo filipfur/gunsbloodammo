@@ -86,16 +86,18 @@ int Game::run(int screenWidth, int screenHeight){
 		key = input.key.keysym.sym;
 		if(isalpha(key))
 		  key = toupper(input.key.keysym.sym);
-		gameState = _menu->keyPressed(key);
+		_keys[key] = true;
 		break;
 	      case SDL_KEYUP:
 		key = input.key.keysym.sym;
 		if(isalpha(key))
 		  key = toupper(input.key.keysym.sym);
-		_menu->keyReleased(key);
+		_keys[key] = false;
 		break;
 	      }
 	    }
+	    if(gameState != EXIT)
+	      gameState = _menu->input(_keys);
 	    _menu->draw(*_renderer);
 	    SDL_RenderPresent(_renderer);
 	  }
@@ -109,18 +111,22 @@ int Game::run(int screenWidth, int screenHeight){
 		key = input.key.keysym.sym;
 		if(isalpha(key))
 		  key = toupper(input.key.keysym.sym);
-		gameState = _currentLevel->keyPressed(key);
+		_keys[key] = true;
 		break;
 	      case SDL_KEYUP:
 		key = input.key.keysym.sym;
 		if(isalpha(key))
 		  key = toupper(input.key.keysym.sym);
-		_currentLevel->keyReleased(key);
+		_keys[key] = false;
 		break;
 	      }
 	    }
-	    draw();
-	    update();
+	    if(gameState != EXIT)
+	      gameState = _currentLevel->input(_keys);
+	    _currentLevel->update();
+	    _currentLevel->draw(*_renderer, _cam.x, _cam.y);
+	    SDL_RenderPresent(_renderer);
+	    
 	  }
 	}
 
@@ -131,15 +137,14 @@ int Game::run(int screenWidth, int screenHeight){
 	SDL_Quit();
 
 	return 0;
+
 }
 
 void Game::draw(){
-	std::cout<<"("<<_cam.x<<", "<<_cam.y<<")"<<std::endl;
-	_currentLevel->draw(*_renderer, _cam.x, _cam.y);
-	SDL_RenderPresent(_renderer);
+	
 }
 
 void Game::update(){
-  _currentLevel->update();
+  
 }
 

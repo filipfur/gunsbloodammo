@@ -12,6 +12,7 @@
 #include "Menu.h"
 #include <vector>
 #include "World.h"
+#include <map>
 
 struct Camera{
 	double x;
@@ -32,6 +33,7 @@ private:
 	Menu* _menu;
 	std::vector<World*> _levels;
 	World* _currentLevel;
+	std::map<char, bool> _keys;
 	
 };
 
