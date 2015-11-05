@@ -20,6 +20,27 @@ Character::~Character(){
 
 }
 
+int getX()
+{
+  return _x;
+}
+
+int getY()
+{
+  return _y;
+}
+
+int getWidth()
+{
+  return _width;
+}
+
+int getHeight()
+{
+  return __height;
+}
+
+
 void Character::draw(SDL_Renderer &renderer, int x, int y){
   
   SDL_SetRenderDrawColor(&renderer, 255, 0, 0, 255);

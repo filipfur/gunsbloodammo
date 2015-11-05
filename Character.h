@@ -5,9 +5,13 @@
 
 class Character{
  public:
-  Character(int, int, int, int);
+  Character(int x, int y, int width, int height);
   ~Character();
 
+  int getX();
+  int getY();
+  int getWidth();
+  int getHeight();
   void draw(SDL_Renderer &, int, int);
   void update();
 
@@ -21,7 +25,6 @@ class Character{
   double _x, _y;
   int _width, _height;
   double MOVESPEED = 0.1;
-  
 
 };
 
