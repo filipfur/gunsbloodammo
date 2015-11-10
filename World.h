@@ -2,6 +2,7 @@
 #include "Character.h"
 #include <SDL.h>
 #include <map>
+#include "Map.h"
 #ifndef WORLD_H
 #define WORLD_H
 
@@ -14,6 +15,7 @@ class World{
   
   int input(std::map<char,bool> &);
  private:
+  Map* _map;
   Character* _player;
 
 };
