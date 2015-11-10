@@ -20,6 +20,9 @@ class Map{
   bool readMap(std::string);
   int _tilesize;
   SDL_Surface* _tileset;
+  SDL_Surface* _canvas;
+  SDL_Rect _pos;
+
   std::vector<std::pair<SDL_Rect, int>> _tiles;
 
 };

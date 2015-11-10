@@ -10,29 +10,38 @@ Map::Map(std::string filepath, const char* tileset, int tilesize){
   readMap(filepath);
   _tileset = IMG_Load(tileset);
   
-}
-Map::~Map(){}
-
-void Map::draw(SDL_Renderer &renderer, int x, int y){
-
-  SDL_Surface* canvas = SDL_CreateRGBSurface(0, 640, 480, 32, 0, 0, 0, 0);
+  _canvas = SDL_CreateRGBSurface(0, 2048, 2048, 32, 0, 0, 0, 0);
 
   int compare = _tiles.size();
   //cout<<compare<<endl;
   for(int i = 0; i < compare; i++){
     SDL_Rect temp;
     temp.x = _tiles.at(i).second*_tilesize % _tileset->w;
-    temp.y = _tiles.at(i).second*_tilesize / _tileset->w;
-    cout<<"("<<temp.x<<"; "<<temp.y<<")"<<" : "<<_tiles.at(i).second<<endl;
+    temp.y = _tiles.at(i).second*_tilesize / _tileset->w * _tilesize;
+    //cout<<"("<<temp.x<<"; "<<temp.y<<")"<<" : "<<_tiles.at(i).second<<endl;
     temp.w = _tilesize;
     temp.h = _tilesize;
 
-    SDL_BlitSurface(_tileset, const_cast<SDL_Rect*>(&temp), canvas,&_tiles.at(i).first);
+    SDL_BlitSurface(_tileset, const_cast<SDL_Rect*>(&temp), _canvas,&_tiles.at(i).first);
   }
 
-  SDL_RenderCopy(&renderer, SDL_CreateTextureFromSurface(&renderer, canvas), NULL, NULL);
+}
+Map::~Map(){
 
-  SDL_FreeSurface(canvas);
+  SDL_FreeSurface(_tileset);
+  SDL_FreeSurface(_canvas);
+
+}
+
+void Map::draw(SDL_Renderer &renderer, int x, int y){
+
+  _pos.x = x;
+  _pos.y = y;
+  _pos.w = 640;
+  _pos.h = 480;
+  SDL_Texture* texmex = SDL_CreateTextureFromSurface(&renderer, _canvas);
+  SDL_RenderCopy(&renderer, texmex, const_cast<SDL_Rect*>(&_pos), NULL);
+  SDL_DestroyTexture(texmex);
 
 }
 

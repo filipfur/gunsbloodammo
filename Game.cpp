@@ -7,6 +7,7 @@
 
 #include "Game.h"
 #include <iostream>
+#include <chrono>
 
 Game::Game() {
 
@@ -42,6 +43,8 @@ int Game::run(int screenWidth, int screenHeight){
 	  std::cerr<<"TTF_Init failed: "<<SDL_GetError()<<std::endl;
 	  return 4;
 	}
+	
+	SDL_ShowCursor(SDL_DISABLE);
 
 	std::vector<const char*> menuItems, optionItems;
 	menuItems.push_back("Guns Blood N' Ammo");
@@ -55,9 +58,6 @@ int Game::run(int screenWidth, int screenHeight){
 	optionItems.push_back("game developed for pc using");
 	optionItems.push_back("C++ and SDL 2");
 	optionItems.push_back("Press Space to return.");
-
-	_cam.x = 0;
-	_cam.y = 0;
 
 	_menu = new Menu(menuItems, optionItems, "BloodLust.ttf");
 	World* _level1 = new World();
@@ -73,10 +73,20 @@ int Game::run(int screenWidth, int screenHeight){
 	const static int EXIT = 2;
 
 	int gameState = 0;
-
 	while(gameState != EXIT){
+	  auto start = std::chrono::system_clock::now();
+	  int frames = 0;
 
 	  while(gameState == MENU){
+	    std::chrono::duration<double> elapsed = std::chrono::system_clock::now() - start;
+	    if(elapsed.count() >= 1){
+	      std::cout<<"FPS: "<<frames<<std::endl;
+	      frames = 0;
+	      start = std::chrono::system_clock::now();
+	    }
+	    else{
+	      frames++;
+	    }
 	    if(SDL_PollEvent(&input)){
 	      switch(input.type){
 	      case SDL_QUIT:
@@ -101,8 +111,18 @@ int Game::run(int screenWidth, int screenHeight){
 	    _menu->draw(*_renderer);
 	    SDL_RenderPresent(_renderer);
 	  }
+	  
 	  while(gameState == GAMEPLAY){
-	    if(SDL_PollEvent(&input)){
+	    std::chrono::duration<double> elapsed = std::chrono::system_clock::now() - start;
+	    if(elapsed.count() >= 1){
+	      std::cout<<"FPS: "<<frames<<std::endl;
+	      frames = 0;
+	      start = std::chrono::system_clock::now();
+	    }
+	    else{
+	      frames++;
+	    }
+	    while(SDL_PollEvent(&input)){
 	      switch(input.type){
 	      case SDL_QUIT:
 		gameState = EXIT;
@@ -119,12 +139,16 @@ int Game::run(int screenWidth, int screenHeight){
 		  key = toupper(input.key.keysym.sym);
 		_keys[key] = false;
 		break;
+	      case SDL_MOUSEMOTION:
+		_mouseX = input.motion.x;
+		_mouseY = input.motion.y;
+		break;
 	      }
 	    }
 	    if(gameState != EXIT)
-	      gameState = _currentLevel->input(_keys);
+	      gameState = _currentLevel->input(_keys, _mouseX, _mouseY);
 	    _currentLevel->update();
-	    _currentLevel->draw(*_renderer, _cam.x, _cam.y);
+	    _currentLevel->draw(*_renderer);
 	    SDL_RenderPresent(_renderer);
 	    
 	  }
@@ -138,13 +162,5 @@ int Game::run(int screenWidth, int screenHeight){
 
 	return 0;
 
-}
-
-void Game::draw(){
-	
-}
-
-void Game::update(){
-  
 }
 

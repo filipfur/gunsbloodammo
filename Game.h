@@ -14,10 +14,7 @@
 #include "World.h"
 #include <map>
 
-struct Camera{
-	double x;
-	double y;
-};
+
 
 class Game {
 public:
@@ -25,15 +22,13 @@ public:
 	virtual ~Game();
 	int run(int, int);
 private:
-	void draw();
-	void update();
-	Camera _cam;
 	SDL_Renderer* _renderer;
 	SDL_Window* _window;
 	Menu* _menu;
 	std::vector<World*> _levels;
 	World* _currentLevel;
 	std::map<char, bool> _keys;
+	int _mouseX, _mouseY;
 	
 };
 
