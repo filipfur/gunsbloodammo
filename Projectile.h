@@ -2,10 +2,14 @@
 #include <map>
 #ifndef PROJ_H
 #define PROJ_H
+
 class Projectile{
  public:
   Projectile(int x, int y, int width, int height, int dx, int dy, int damage);
   Projectile(int width, int height, int damage);
+
+  Projectile();
+
   ~Projectile();
 
 
@@ -15,6 +19,8 @@ class Projectile{
   int getHeight();
   
   int getDamage();
+
+  //void Projectile::setDir(double degrees);
 
   void draw(SDL_Renderer &, int, int);
   void update();

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Character.h"
+//#include "Player.h"
 #include "Weapon.h"
 using namespace std;
 
@@ -26,6 +27,19 @@ int main()
   
   cout << "Ammo = " << character2.getAmmo() << endl;
   cout << "Max ammo = " << character2.getMaxAmmo() << endl;
+
+
+  for (int i{0}; i < 10; i++){
+    cout << "Shoot!" << endl;
+    character2.shoot();
+    cout << "Ammo = " << character2.getAmmo() << endl;
+  }
+
+  for (int i{0}; i < 10; i++){
+    cout << "Player is hit!" << endl;
+    character2.decHp(4);
+    cout << "Hp = " << character2.getHp() << endl;
+  }
 
   return 0;
 }

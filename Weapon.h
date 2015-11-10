@@ -7,7 +7,7 @@ class Weapon
 {
  public:
 
-  //Weapon(int ammo, int max_ammo, Projectile projectile);
+  Weapon(int ammo, int max_ammo, Projectile projectile);
 
   Weapon(int ammo, int max_ammo);
 
@@ -16,8 +16,8 @@ class Weapon
   ~Weapon();
 
   int getAmmo();
-
   int getMaxAmmo();
+  Projectile getProjectile();
 
   void decAmmo();
   void incAmmo(int x);
@@ -27,7 +27,7 @@ class Weapon
 
   int _ammo;
   int _max_ammo;
-  //Projectile _projectile;
+  Projectile _projectile;
 };
 
 

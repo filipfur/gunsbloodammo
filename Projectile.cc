@@ -1,4 +1,6 @@
 #include "Projectile.h"
+
+
 Projectile::Projectile(int x, int y, int width, int height, int dx, int dy, int damage){
   _x = x;
   _y = y;
@@ -24,6 +26,21 @@ Projectile::Projectile(int width, int height, int damage){
   _dx = 0;
   _dy = 0;
   _damage = damage;
+
+  _pos.x = 0;
+  _pos.y = 0;
+  _pos.w = 0;
+  _pos.h = 0;
+}
+
+Projectile::Projectile(){
+  _x = 0;
+  _y = 0;
+  _width = 0;
+  _height = 0;
+  _dx = 0;
+  _dy = 0;
+  _damage = 0;
 
   _pos.x = 0;
   _pos.y = 0;
@@ -60,10 +77,19 @@ int Projectile::getHeight()
   return _height;
 }
 
+
 int Projectile::getDamage()
 {
   return _damage;
 }
+
+/*
+void Projectile::setDir(double degrees)
+{
+  _dx = cos(degrees);
+  _dy = sin(degrees);
+}
+*/
 
 void Projectile::draw(SDL_Renderer &renderer, int x, int y){
   
