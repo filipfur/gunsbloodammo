@@ -1,10 +1,11 @@
 #include "Character.h"
 
-Character::Character(int x, int y, int width, int height){
+Character::Character(int x, int y, int width, int height, Weapon weapon){
   _x = x;
   _y = y;
   _width = width;
   _height = height;
+  _weapon = weapon;
 
   _pos.x = x;
   _pos.y = y;
@@ -18,6 +19,31 @@ Character::Character(int x, int y, int width, int height){
 
 Character::~Character(){
 
+}
+
+int Character::getX()
+{
+  return _x;
+}
+
+int Character::getY()
+{
+  return _y;
+}
+
+int Character::getWidth()
+{
+  return _width;
+}
+
+int Character::getHeight()
+{
+  return _height;
+}
+
+Weapon Character::getWeapon()
+{
+  return _weapon;
 }
 
 void Character::draw(SDL_Renderer &renderer, int x, int y){

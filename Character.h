@@ -1,13 +1,19 @@
 #include <SDL.h>
 #include <map>
+#include "Weapon.h"
 #ifndef CHAR_H
 #define CHAR_H
 
 class Character{
  public:
-  Character(int, int, int, int);
+  Character(int x, int y, int width, int height, Weapon weapon);
   ~Character();
 
+  int getX();
+  int getY();
+  int getWidth();
+  int getHeight();
+  Weapon getWeapon();
   void draw(SDL_Renderer &, int, int);
   void update();
 
@@ -21,7 +27,7 @@ class Character{
   double _x, _y;
   int _width, _height;
   double MOVESPEED = 0.1;
-  
+  Weapon _weapon;
 
 };
 
