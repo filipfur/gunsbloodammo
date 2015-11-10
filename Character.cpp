@@ -1,5 +1,4 @@
 #include "Character.h"
-
 Character::Character(int x, int y, int width, int height, Weapon weapon){
   _x = x;
   _y = y;
@@ -14,7 +13,24 @@ Character::Character(int x, int y, int width, int height, Weapon weapon){
 
   _direction = 'W';
   _dx = _dy = 0;
+}
 
+Character::Character(int x, int y, int width, int height){
+  _x = x;
+  _y = y;
+  _width = width;
+  _height = height;
+  
+  Weapon weapon(100,100);
+  _weapon = weapon;
+
+  _pos.x = x;
+  _pos.y = y;
+  _pos.w = width;
+  _pos.h = height;
+
+  _direction = 'W';
+  _dx = _dy = 0;
 }
 
 Character::~Character(){
@@ -44,6 +60,16 @@ int Character::getHeight()
 Weapon Character::getWeapon()
 {
   return _weapon;
+}
+
+int Character::getAmmo()
+{
+  return _weapon.getAmmo();
+}
+
+int Character::getMaxAmmo()
+{
+  return _weapon.getMaxAmmo();
 }
 
 void Character::draw(SDL_Renderer &renderer, int x, int y){

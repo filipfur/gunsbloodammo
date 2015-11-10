@@ -7,6 +7,7 @@
 class Character{
  public:
   Character(int x, int y, int width, int height, Weapon weapon);
+  Character(int x, int y, int width, int height);
   ~Character();
 
   int getX();
@@ -14,6 +15,8 @@ class Character{
   int getWidth();
   int getHeight();
   Weapon getWeapon();
+  int getAmmo();
+  int getMaxAmmo();
   void draw(SDL_Renderer &, int, int);
   void update();
 

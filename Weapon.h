@@ -1,11 +1,14 @@
+#include "Projectile.h"
 #ifndef WEAPON_H
 #define WEAPON_H
-//#include "Weapon.cc";
 using namespace std;
 
 class Weapon
 {
  public:
+
+  //Weapon(int ammo, int max_ammo, Projectile projectile);
+
   Weapon(int ammo, int max_ammo);
 
   Weapon();
@@ -24,6 +27,7 @@ class Weapon
 
   int _ammo;
   int _max_ammo;
+  //Projectile _projectile;
 };
 
 

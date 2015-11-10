@@ -2,16 +2,32 @@
 
 using namespace std;
 
+/*
+Weapon::Weapon(int ammo, int max_ammo, Projectile projectile)
+{
+  _ammo = ammo;
+  _max_ammo = max_ammo;
+  _projectile = projectile;
+}
+*/
+
 Weapon::Weapon(int ammo, int max_ammo)
 {
   _ammo = ammo;
   _max_ammo = max_ammo;
+
+  //Projectile projectile(10,20,30);
+  //_projectile = projectile;
+
 }
 
 Weapon::Weapon()
 {
   _ammo = 50;
   _max_ammo = 100;
+
+  //Projectile projectile(10,20,30);
+  //_projectile = projectile;
 }
 
 
