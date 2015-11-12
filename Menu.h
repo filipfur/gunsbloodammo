@@ -6,7 +6,7 @@
 class Menu{
 
  public:
-  Menu(std::vector<const char*> menuItems, std::vector<const char*> optionItems, const char* fontStyle = "Beastfom.txt");
+  Menu(std::vector<const char*> menuItems, std::vector<const char*> optionItems, const char* fontStyle = "Beastfom.ttf");
   ~Menu();
 
   void update();
