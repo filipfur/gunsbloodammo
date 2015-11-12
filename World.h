@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <map>
 #include "Map.h"
+#include "GUI.h"
 #ifndef WORLD_H
 #define WORLD_H
 
@@ -26,6 +27,7 @@ class World{
   Map* _map;
   Character* _player;
   Crosshair* _crosshair;
+  GUI* _GUI;
 
 };
 

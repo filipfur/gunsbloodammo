@@ -18,11 +18,11 @@ Menu::Menu(std::vector<const char*> menuItems, std::vector<const char*> optionIt
   if(!_highlightFont){
     std::cerr<<TTF_GetError()<<std::endl;
   }
-  _titleColor1 = {0, 0, 0, 255};
+  _titleColor1 = {154, 255, 72, 255};
   _titleColor2 = {255, 255, 255 , 255};
   _breadColor = {128, 128, 128, 255};
   _highlightColor = {255, 0, 0, 255};
-  _bgColor = {200, 200, 200, 255};
+  _bgColor = {0, 0, 0, 255};
   _currentSelection = 1;
   _subMenu = 0;
 
@@ -74,12 +74,7 @@ void Menu::draw(SDL_Renderer &renderer){
     menuPos.y = 480/4 + i * 64;
     menuPos.w = w;
     menuPos.h = h;
-    SDL_Rect src;
-    src.x = 0;
-    src.y = 0;
-    src.w = w;
-    src.h = h;
-    if(SDL_RenderCopy(&renderer, text_texture, &src, &menuPos) != 0 ){
+    if(SDL_RenderCopy(&renderer, text_texture, NULL, &menuPos) != 0 ){
       std::cerr<<SDL_GetError()<<std::endl;
     }
     SDL_DestroyTexture(text_texture);

@@ -4,6 +4,7 @@ World::World(){
   _map = new Map("map1.txt", "snow_on_stones.png", 64);
   _player = new Character(0, 0, 8, 8);
   _crosshair = new Crosshair("crosshair_gap_1.png", 0, 255, 0);
+  _GUI = new GUI(_player);
   _cam.x = 0;
   _cam.y = 0;
 }
@@ -19,11 +20,14 @@ void World::draw(SDL_Renderer &renderer){
   _map->draw(renderer, _cam.x, _cam.y);
   _player->draw(renderer, _cam.x, _cam.y);
   _crosshair->draw(renderer);
+  _GUI->draw(renderer);
 }
 
 void World::update(){
   _player->update();
   _crosshair->update();
+  _GUI->update();
+  _player->decHp(1);
 }
 
 int World::input(std::map<char,bool> &keys, int mx, int my){
