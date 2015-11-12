@@ -24,6 +24,8 @@ class Character{
   int getAmmo();
   int getMaxAmmo();
 
+  void setWeapon(Weapon weapon);
+
   Projectile shoot();
   void decHp(int damage);
   void incHp(int hp_gain);

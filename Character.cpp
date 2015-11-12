@@ -122,6 +122,11 @@ int Character::getMaxAmmo()
   return _weapon.getMaxAmmo();
 }
 
+void Character::setWeapon(Weapon weapon)
+{
+  _weapon = weapon;
+}
+
 void Character::decHp(int damage)
 {
   _hp = _hp - damage;

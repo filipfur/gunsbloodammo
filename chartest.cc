@@ -2,6 +2,7 @@
 #include "Character.h"
 //#include "Player.h"
 #include "Weapon.h"
+#include "Powerup.h"
 using namespace std;
 
 int main()
@@ -40,6 +41,26 @@ int main()
     character2.decHp(4);
     cout << "Hp = " << character2.getHp() << endl;
   }
+
+  cout << "Creating a powerUp" << endl;
+  PowerUp p(15, 15, 0, 10);
+
+
+  cout << "x = " << p.getX() << endl
+       << "y = " << p.getY() << endl;
+  if (p.getType() == 0)
+    {
+      cout << "Type = " << "Ammo" << endl;
+    }
+  else if(p.getType() == 2)
+    {
+      cout << "Type = " << "health" << endl;
+    }
+  else
+    {
+      cout << "Type = " << "Weapon" << endl;
+    }
+  cout << "value = " << p.getValue() << endl;
 
   return 0;
 }
