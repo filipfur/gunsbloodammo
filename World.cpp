@@ -1,15 +1,31 @@
 #include "World.h"
 
-World::World(){
-  _map = new Map("map1.txt", "snow_on_stones.png", 64);
-  _player = new Character(0, 0, 8, 8);
-  _crosshair = new Crosshair("crosshair_gap_1.png", 0, 255, 0);
+World::World(int x, int y, const char* mapFile, const char* tileFile){
+  _map = new Map(mapFile, tileFile, 64);
+  _player = new Character(x, y, 8, 8);
+  std::ifstream file("config.txt");
+  int r,g,b;
+  if(file.is_open()){
+    file>>r>>g>>b;
+    file.close();
+    std::cout<<r<<' '<<g<<' '<<b<<std::endl;
+  }
+  else{
+    std::cerr<<"Couldnt open config.txt"<<std::endl;
+  }
+
+  _crosshair = new Crosshair("crosshair_gap_1.png", r, g, b);
   _GUI = new GUI(_player);
   _cam.x = 0;
   _cam.y = 0;
 }
 
 World::~World(){
+
+  delete(_crosshair);
+  delete(_GUI);
+  delete(_map);
+  delete(_player);
 
 }
 
@@ -27,10 +43,19 @@ void World::update(){
   _player->update();
   _crosshair->update();
   _GUI->update();
-  _player->decHp(1);
+  //_player->decHp(1);
 }
 
 int World::input(std::map<char,bool> &keys, int mx, int my){
+
+  if(_player->getHp() <= 0){
+    return 3;
+  }
+
+  if(_player->getX() >= 480){
+    return 4;
+  }
+
   _player->input(keys);
   _crosshair->input(mx, my);
 

@@ -13,6 +13,7 @@
 #include <vector>
 #include "World.h"
 #include <map>
+#include <string>
 
 
 
@@ -20,13 +21,13 @@ class Game {
 public:
 	Game();
 	virtual ~Game();
-	int run(int, int);
+	int run(int, int, int, bool intro = false);
 private:
 	SDL_Renderer* _renderer;
 	SDL_Window* _window;
 	Menu* _menu;
 	std::vector<World*> _levels;
-	World* _currentLevel;
+	std::vector<World*>::iterator _currentLevel;
 	std::map<char, bool> _keys;
 	int _mouseX, _mouseY;
 	

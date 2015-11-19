@@ -5,6 +5,8 @@
 #include <map>
 #include "Map.h"
 #include "GUI.h"
+#include <iostream>
+#include <fstream>
 #ifndef WORLD_H
 #define WORLD_H
 
@@ -16,7 +18,7 @@ struct Camera{
 
 class World{
  public:
-  World();
+  World(int, int, const char*, const char*);
   ~World();
   void draw(SDL_Renderer &);
   void update();

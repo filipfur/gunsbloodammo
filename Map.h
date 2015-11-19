@@ -21,6 +21,7 @@ class Map{
   int _tilesize;
   SDL_Surface* _tileset;
   SDL_Surface* _canvas;
+  SDL_Texture* _texture;
   SDL_Rect _pos;
 
   std::vector<std::pair<SDL_Rect, int>> _tiles;

@@ -11,7 +11,7 @@ Map::Map(std::string filepath, const char* tileset, int tilesize){
   _tileset = IMG_Load(tileset);
   
   _canvas = SDL_CreateRGBSurface(0, 2048, 2048, 32, 0, 0, 0, 0);
-
+  _texture = NULL;
   int compare = _tiles.size();
   //cout<<compare<<endl;
   for(int i = 0; i < compare; i++){
@@ -30,6 +30,7 @@ Map::~Map(){
 
   SDL_FreeSurface(_tileset);
   SDL_FreeSurface(_canvas);
+  SDL_DestroyTexture(_texture);
 
 }
 
@@ -39,9 +40,10 @@ void Map::draw(SDL_Renderer &renderer, int x, int y){
   _pos.y = y;
   _pos.w = 640;
   _pos.h = 480;
-  SDL_Texture* texmex = SDL_CreateTextureFromSurface(&renderer, _canvas);
-  SDL_RenderCopy(&renderer, texmex, const_cast<SDL_Rect*>(&_pos), NULL);
-  SDL_DestroyTexture(texmex);
+  if(_texture == NULL)
+    _texture = SDL_CreateTextureFromSurface(&renderer, _canvas);
+  const SDL_Rect src = _pos;
+  SDL_RenderCopy(&renderer, _texture, &src, NULL);
 
 }
 
