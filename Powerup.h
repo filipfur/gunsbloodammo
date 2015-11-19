@@ -3,7 +3,7 @@
 #ifndef POWER_H
 #define POWER_H
 
-class PowerUp{
+class Powerup{
 
  public:
 
@@ -13,10 +13,10 @@ class PowerUp{
   int WEAPON = 1;
   int HEALTH = 2;
 
-  PowerUp (int x, int y, Type type, int value, int width, int height);
-  PowerUp (int x, int y, Type type, int value);
-  PowerUp();
-  ~PowerUp();
+  Powerup(int x, int y, Type type, int value, int width, int height);
+  Powerup(int x, int y, Type type, int value);
+  Powerup();
+  ~Powerup();
  
 
   int getX();

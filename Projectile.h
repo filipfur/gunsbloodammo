@@ -17,10 +17,12 @@ class Projectile{
   int getY();
   int getWidth();
   int getHeight();
-  
   int getDamage();
+  double getMoveSpeed();
 
-  //void Projectile::setDir(double degrees);
+  double getDir();
+  void setDir(double radians);
+  void setMoveSpeed(double speed);
 
   void draw(SDL_Renderer &, int, int);
   void update();
@@ -33,7 +35,7 @@ class Projectile{
   double _dx, _dy;
   double _x, _y;
   int _width, _height;
-  double MOVESPEED = 0.1;
+  double _movespeed = 0.1;
 
   int _damage;
 

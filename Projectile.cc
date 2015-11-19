@@ -83,13 +83,24 @@ int Projectile::getDamage()
   return _damage;
 }
 
-/*
-void Projectile::setDir(double degrees)
-{
-  _dx = cos(degrees);
-  _dy = sin(degrees);
+double Projectile::getMoveSpeed(){
+  return _movespeed;
 }
-*/
+
+double Projectile::getDir(){
+  return atan2(_dy,_dx);
+}
+
+void Projectile::setDir(double radians)
+{
+  _dx = cos(radians);
+  _dy = sin(radians);
+}
+
+void Projectile::setMoveSpeed(double speed){
+  _movespeed = speed;
+}
+
 
 void Projectile::draw(SDL_Renderer &renderer, int x, int y){
   
@@ -100,8 +111,8 @@ void Projectile::draw(SDL_Renderer &renderer, int x, int y){
 
 void Projectile::update(){
 
-  _x += _dx;
-  _y += _dy;
+  _x += _dx*_movespeed;
+  _y += _dy*_movespeed;
 
   _pos.x = _x;
   _pos.y = _y;

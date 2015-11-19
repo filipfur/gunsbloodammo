@@ -20,11 +20,13 @@ class Character{
   int getWidth();
   int getHeight();
   int getHp();
+  double getSpeed();
   Weapon getWeapon();
   int getAmmo();
   int getMaxAmmo();
 
   void setWeapon(Weapon weapon);
+  void setSpeed(double speed);
 
   Projectile shoot();
   void decHp(int damage);
@@ -36,7 +38,8 @@ class Character{
   void draw(SDL_Renderer &, int, int);
   void update();
 
-  int input(std::map<char,bool> &);
+  //int input(std::map<char,bool> &);
+  //moved to Player class
 
  protected:
 
@@ -45,7 +48,7 @@ class Character{
   double _dx, _dy;
   double _x, _y;
   int _width, _height;
-  double MOVESPEED = 0.1;
+  double _movespeed = 0.1;
   Weapon _weapon;
   int _hp;
   int _hpMax;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Character.h"
-//#include "Player.h"
+#include "Player.h"
+#include "Enemy.h"
 #include "Weapon.h"
 #include "Powerup.h"
 using namespace std;
@@ -10,7 +11,7 @@ int main()
 
   cout << "Creating a character with 5 parameters" << endl << endl;
   Weapon weapon(25,45);
-  Character character(30, 20, 40, 50, weapon);
+  Player character(30, 20, 40, 50, weapon);
   cout << "Xpos =  " << character.getX() << endl;
   cout << "Ypos = " << character.getY() << endl;
   cout << "Width = " << character.getWidth() << endl;
@@ -20,7 +21,7 @@ int main()
   cout << "Max ammo = " << character.getMaxAmmo() << endl;
 
   cout << "Creating a character with 4 parameters" << endl << endl;
-  Character character2(1, 2, 3, 4);
+  Enemy character2(1, 2, 3, 4);
   cout << "Xpos =  " << character2.getX() << endl;
   cout << "Ypos = " << character2.getY() << endl;
   cout << "Width = " << character2.getWidth() << endl;
@@ -42,8 +43,11 @@ int main()
     cout << "Hp = " << character2.getHp() << endl;
   }
 
-  cout << "Creating a powerUp" << endl;
-  PowerUp p(15, 15, 0, 10);
+
+
+  cout << "Creating a powerup" << endl;
+  Powerup p(15, 15, 0, 10);
+
 
 
   cout << "x = " << p.getX() << endl
@@ -61,6 +65,17 @@ int main()
       cout << "Type = " << "Weapon" << endl;
     }
   cout << "value = " << p.getValue() << endl;
+
+
+  cout << "create projectile" << endl;
+
+  Projectile projectile(50,50,20);
+
+  cout << "Set direction = 0,7" << endl;
+
+  projectile.setDir(0.7);
+
+  cout << "Direction = " << projectile.getDir() << endl;
 
   return 0;
 }

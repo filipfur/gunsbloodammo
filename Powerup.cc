@@ -2,7 +2,7 @@
 
 
 //konstruktor
-PowerUp::PowerUp (int x, int y, Type type, int value, int width, int height){
+Powerup::Powerup(int x, int y, Type type, int value, int width, int height){
   _x = x;
   _y = y;
   _width = width;
@@ -17,7 +17,7 @@ PowerUp::PowerUp (int x, int y, Type type, int value, int width, int height){
 }
 
 //konstruktor
-PowerUp::PowerUp (int x, int y, Type type, int value){
+Powerup::Powerup(int x, int y, Type type, int value){
   _x = x;
   _y = y;
   _width = 20;
@@ -32,7 +32,7 @@ PowerUp::PowerUp (int x, int y, Type type, int value){
 }
 
 //defaultkonstruktor
-PowerUp::PowerUp (){
+Powerup::Powerup(){
   _x = 5;
   _y = 5;
   _width = 20;
@@ -47,30 +47,30 @@ PowerUp::PowerUp (){
 }
 
 //destruktor
-PowerUp::~PowerUp (){
+Powerup::~Powerup(){
 }
 
-int PowerUp::getX()
+int Powerup::getX()
 {
   return _x;
 }
 
-int PowerUp::getY()
+int Powerup::getY()
 {
   return _y;
 }
 
-int PowerUp:: getValue()
+int Powerup:: getValue()
 {
   return _value;
 }
 
-int PowerUp::getType()
+int Powerup::getType()
 {
   return _type;
 }
 
-void PowerUp::draw(SDL_Renderer &renderer, int x, int y){
+void Powerup::draw(SDL_Renderer &renderer, int x, int y){
   
   SDL_SetRenderDrawColor(&renderer, 255, 0, 0, 255);
   SDL_RenderFillRect(&renderer, const_cast<SDL_Rect*>(&_pos));

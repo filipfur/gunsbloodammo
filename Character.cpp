@@ -107,6 +107,10 @@ int Character::getHp()
   return _hp;
 }
 
+double Character::getSpeed(){
+  return _movespeed;
+}
+
 Weapon Character::getWeapon()
 {
   return _weapon;
@@ -125,6 +129,10 @@ int Character::getMaxAmmo()
 void Character::setWeapon(Weapon weapon)
 {
   _weapon = weapon;
+}
+
+void Character::setSpeed(double speed){
+  _movespeed = speed;
 }
 
 void Character::decHp(int damage)
@@ -165,14 +173,16 @@ void Character::draw(SDL_Renderer &renderer, int x, int y){
 
 void Character::update(){
 
-  _x += _dx;
-  _y += _dy;
+  _x += _dx*_movespeed;
+  _y += _dy*_movespeed;
 
   _pos.x = _x;
   _pos.y = _y;
 
 }
 
+/*
+//moved to player class
 int Character::input(std::map<char,bool> &keys){
 
   if(keys['W']){
@@ -200,3 +210,4 @@ int Character::input(std::map<char,bool> &keys){
 
   return 2;
 }
+*/
