@@ -11,12 +11,14 @@ class Crosshair{
   
   void update();
   void draw(SDL_Renderer &);
+  void setColor(Uint8, Uint8, Uint8);
   int input(int, int);
 
  private:
   SDL_Rect _pos;
   SDL_Surface* _image;
-  SDL_Color _color;
+  SDL_Texture* _texture;
+  Uint8 _red, _green, _blue;
 
 };
 
