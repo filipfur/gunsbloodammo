@@ -2,7 +2,7 @@
 
 World::World(int x, int y, const char* mapFile, const char* tileFile){
   _map = new Map(mapFile, tileFile, 64);
-  _player = new Character(x, y, 8, 8);
+  _player = new Player(x, y, 8, 8);
   std::ifstream file("config.txt");
   int r,g,b;
   if(file.is_open()){
@@ -58,6 +58,10 @@ int World::input(std::map<char,bool> &keys, int mx, int my){
 
   _player->input(keys);
   _crosshair->input(mx, my);
+
+  if(keys[SDLK_ESCAPE]){
+    return 0;
+  }
 
   if(keys[SDLK_UP]){
     _cam.y -= _cam.speed;

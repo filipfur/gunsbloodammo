@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Character.h"
+#include "Player.h"
 #include "Crosshair.h"
 #include <SDL.h>
 #include <map>
@@ -27,7 +28,7 @@ class World{
  private:
   Camera _cam;
   Map* _map;
-  Character* _player;
+  Player* _player;
   Crosshair* _crosshair;
   GUI* _GUI;
 
