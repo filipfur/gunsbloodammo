@@ -9,10 +9,11 @@ Enemy::Enemy(int x, int y, int width, int height, Weapon weapon){
 Enemy::Enemy(int x, int y, int width, int height){
   Character(x,y,width,height);
 }
+/*
 Enemy::Enemy(){
   Character();
 }
-
+*/
 void Enemy::setDir(double radians){
   _dx = cos(radians);
   _dy = sin(radians);

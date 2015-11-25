@@ -10,7 +10,8 @@ public:
   Player(int x, int y, int width, int height, int hp, Weapon weapon);
   Player(int x, int y, int width, int height, Weapon weapon);
   Player(int x, int y, int width, int height);
-  Player();
+  //Player();
+  ~Player(){}
 
   int input(std::map<char,bool> &);
 

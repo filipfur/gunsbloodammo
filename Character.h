@@ -11,7 +11,7 @@ class Character{
   Character(int x, int y, int width, int height, int hp, Weapon weapon);
   Character(int x, int y, int width, int height, Weapon weapon);
   Character(int x, int y, int width, int height);
-  Character();
+  Character(){}
   
   ~Character();
 
@@ -48,7 +48,7 @@ class Character{
   double _dx, _dy;
   double _x, _y;
   int _width, _height;
-  double _movespeed = 0.1;
+  double _movespeed = 1;
   Weapon _weapon;
   int _hp;
   int _hpMax;

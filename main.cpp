@@ -10,7 +10,8 @@
 int main(int argc, char* argv[]){
 
 	Game game;
-	int error = game.run(640, 480);
+	//run(screenWidth, screenHeight, GAME_SPEED_HZ, intro)
+	int error = game.run(640, 480, 100);
 
 	return error;
 }

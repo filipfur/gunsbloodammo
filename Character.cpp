@@ -1,4 +1,5 @@
 #include "Character.h"
+#include <iostream>
 
 
 
@@ -43,6 +44,7 @@ Character::Character(int x, int y, int width, int height){
   _y = y;
   _width = width;
   _height = height;
+  std::cout<<"width CHARACTER"<<width<<std::endl;
   _hp = 100;
   _hpMax = 100;
   Weapon weapon(100,100);
@@ -57,7 +59,9 @@ Character::Character(int x, int y, int width, int height){
   _dx = _dy = 0;
 }
 
-Character::Character(){
+//Character::Character(){
+  /*
+  std::cout<<"försvinn"<<std::endl;
   _x = 0;
   _y = 0;
   _width = 0;
@@ -74,8 +78,8 @@ Character::Character(){
 
   _direction = 'W';
   _dx = _dy = 0;
-}
-
+  */
+//}
 
 
 Character::~Character(){
@@ -166,8 +170,11 @@ Projectile Character::shoot()
 
 void Character::draw(SDL_Renderer &renderer, int x, int y){
   
-  SDL_SetRenderDrawColor(&renderer, 255, 0, 0, 255);
+  SDL_SetRenderDrawColor(&renderer, 0, 0, 255, 255);
   SDL_RenderFillRect(&renderer, const_cast<SDL_Rect*>(&_pos));
+
+  std::cout<<"X "<<_pos.x<<' '<<"Y "<<_pos.y<<std::endl;
+  std::cout<<"W "<<_pos.w<<' '<<"H "<<_pos.h<<std::endl;
   
 }
 

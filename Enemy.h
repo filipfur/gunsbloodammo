@@ -11,7 +11,8 @@ public:
   Enemy(int x, int y, int width, int height, int hp, Weapon weapon);
   Enemy(int x, int y, int width, int height, Weapon weapon);
   Enemy(int x, int y, int width, int height);
-  Enemy();
+  //Enemy();
+  ~Enemy(){}
   void setDir(double radians);
   double getDir();
 };
