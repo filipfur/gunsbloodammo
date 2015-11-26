@@ -9,6 +9,7 @@
 #include <iostream>
 #include <chrono>
 #include <fstream>
+#include <algorithm>
 
 Game::Game() {
 
@@ -52,6 +53,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	menuItems.push_back("New Game");
 	menuItems.push_back("Help");
 	menuItems.push_back("Options");
+	menuItems.push_back("Highscore");
 	menuItems.push_back("Exit");
 
 	helpItems.push_back("Help");
@@ -62,7 +64,26 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 
 	std::vector<const char*> optionItems = {"Options", "Crosshair Color: ", "Back"};
 
-	_menu = new Menu(menuItems, helpItems, optionItems);
+	std::vector<const char*> highscoreItems = {"Highscore"};
+	
+	ifstream ifs("highscore.txt");
+	
+	
+	string time;
+	int counter = 1;
+	while(ifs>>time){
+	  char* output0 = new char[100];
+	  strcpy(output0, std::to_string(counter++).c_str());
+	  strcat(output0, ". ");
+	  strcat(output0, time.c_str());
+	  strcat(output0, " s - ");
+	  string str;
+	  getline(ifs, str, '\n');
+	  strcat(output0, str.c_str());
+	  highscoreItems.push_back(output0);
+	}
+	ifs.close();
+	_menu = new Menu(menuItems, helpItems, optionItems, highscoreItems);
 
 	SDL_Event input;
 	char key;
@@ -226,37 +247,152 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	    }
 	    SDL_Texture* texture = NULL;
 	    texture = SDL_CreateTextureFromSurface(_renderer, surface);
-	    SDL_Rect pos = {640/2 - surface->w, 480/4, surface->w, surface->h};
+	    SDL_Rect pos = {640/2 - surface->w/2, 480/4, surface->w, surface->h};
 	    SDL_RenderCopy(_renderer, texture, NULL, &pos);
-	    SDL_DestroyTexture(texture);
+	    SDL_FreeSurface(surface);
+	    
 	    TTF_CloseFont(font);
-	    /*	    font = TTF_OpenFont("BloodLust.ttf", 48);
-
-	    double time = 114.1123;
+	    font = TTF_OpenFont("BloodLust.ttf", 48);
 
 	    char output[100];
 	    strcpy(output,"Time: ");
-	    strcat(output,std::to_string(time).c_str());
+	    strcat(output,std::to_string(_currtime).c_str());
 	    strcat(output," seconds.");
 	    
 	    const char* pointer = output;
+	    SDL_Surface* text_surface = NULL;
+	    SDL_Texture* text_texture = NULL;
 
-	    if(!(surface = TTF_RenderText_Solid(font, pointer, color))){
+	    if(!(text_surface = TTF_RenderText_Solid(font, pointer, color))){
 	      std::cerr<<TTF_GetError()<<std::endl;
-	      }*/
-	    
-	    ofstream highscore;
-	    highscore.open ("highscore.txt", ios::app);
-	    highscore << "Your name here " << _currtime << "\n";
-	    highscore.close();
+	    }
 
-	    SDL_RenderPresent(_renderer);
+	    if((text_texture = SDL_CreateTextureFromSurface(_renderer, text_surface)) == NULL){
+	      std::cerr<<TTF_GetError()<<std::endl;
+	    }
 	    
-	    SDL_Delay(2000);
+	    SDL_Rect pos2 = {640/2 - text_surface->w/2, 480/4*2, text_surface->w, text_surface->h};
+
+	    SDL_RenderCopy(_renderer, text_texture, NULL, &pos2);
+
+	    SDL_FreeSurface(text_surface);
+
+	    vector<pair<int, string>> v;
+	    ifstream ifs("highscore.txt");
+	    int i;
+	    while(ifs>>i){
+	      string str;
+	      getline(ifs, str, '\n');
+	      v.push_back(make_pair(i, str));
+	    }
 	    
-	    gameState = 0;
+	    if(_currtime <= v.at(v.size()-1).first){
+	      SDL_StartTextInput();
+
+	      SDL_Rect pos3 = {0, 0, 256, 32};
+
+	      string text = "";
+	      bool done = SDL_FALSE;
+	      string tecken;
+	      char output2[100];
+
+
+	      SDL_SetTextInputRect(&pos3);
+
+	      while (!done) {
+		SDL_Event textInputEvent;
+		if (SDL_PollEvent(&textInputEvent)) {
+		  switch (textInputEvent.type) {
+		  case SDL_QUIT:
+		    /* Quit */
+		    done = SDL_TRUE;
+		    break;
+		  case SDL_TEXTINPUT:
+		    /* Add new text onto the end of our text */
+		  
+		    tecken.assign(textInputEvent.text.text, textInputEvent.text.text+1);
+		    text += tecken;
+		    std::cout<<text<<std::endl;
+		    break;
+		  case SDL_KEYDOWN:
+		    if(textInputEvent.key.keysym.sym == SDLK_BACKSPACE){
+		      text = text.substr(0, text.length() - 1);
+		    }
+		    if(textInputEvent.key.keysym.sym == SDLK_RETURN){
+		      //write to file
+		      done = SDL_TRUE;
+		    }
+		  
+		    break;
+		  }
+
+		  SDL_RenderClear(_renderer);
+
+		  SDL_RenderCopy(_renderer, texture, NULL, &pos);
+		
+		  SDL_RenderCopy(_renderer, text_texture, NULL, &pos2);
+
+		
+		  strcpy(output2,"Name: ");
+		  strcat(output2,text.c_str());
+	    
+		  const char* pointer2 = output2;
+		  SDL_Surface* text_surface2 = NULL;
+		  SDL_Texture* text_texture2 = NULL;
+
+		  if(!(text_surface2 = TTF_RenderText_Solid(font, pointer2, color))){
+		    std::cerr<<TTF_GetError()<<std::endl;
+		  }
+
+		  if((text_texture2 = SDL_CreateTextureFromSurface(_renderer, text_surface2)) == NULL){
+		    std::cerr<<TTF_GetError()<<std::endl;
+		  }
+	    
+		  SDL_Rect pos4 = {640/2 - text_surface2->w/2, 480/4*3, text_surface2->w, text_surface2->h};
+
+		  SDL_RenderCopy(_renderer, text_texture2, NULL, &pos4);
+
+		  SDL_RenderPresent(_renderer);
+
+		  SDL_FreeSurface(text_surface2);
+		  SDL_DestroyTexture(text_texture2);
+		
+		}
+	      
+	      }
+	      SDL_StopTextInput();
+	    
+	      SDL_DestroyTexture(texture);
+	      SDL_DestroyTexture(text_texture);
+
+	      v.at(v.size()-1).first = _currtime;
+	      v.at(v.size()-1).second = text;
+
+	      sort(v.begin(), v.end());
+
+	      ofstream highscore;
+	      highscore.open("highscore.txt");
+	      for(auto it = v.cbegin(); it != v.cend(); ++it){
+		highscore<<it->first<<' '<<it->second<<"\n";
+	      }
+	      highscore.close();
+
+	      _menu->updateHighscore();
+	    }
+	    else{
+	      SDL_RenderPresent(_renderer);
+	      SDL_Delay(4000);
+	    }
+
+	    
+
 	    _levels.clear();
+	    
+	    SDL_FlushEvents(SDL_QUIT, SDL_LASTEVENT);
+
+	    gameState = MENU;
 	    _currtime = 0;
+
 	  }
 
 	}

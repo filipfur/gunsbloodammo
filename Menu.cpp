@@ -1,10 +1,11 @@
 #include "Menu.h"
 
-Menu::Menu(std::vector<const char*> menuItems, std::vector<const char*> helpItems, std::vector<const char*> optionItems, const char* fontStyle){
+Menu::Menu(std::vector<const char*> menuItems, std::vector<const char*> helpItems, std::vector<const char*> optionItems, std::vector<const char*> highscoreItems, const char* fontStyle){
 
   _currentItems = _menuItems = menuItems;
   _helpItems = helpItems;
   _optionItems = optionItems;
+  _highscoreItems = highscoreItems;
   _titleFont = TTF_OpenFont(fontStyle, 72);
   _breadFont = TTF_OpenFont(fontStyle, 48);
   _highlightFont = TTF_OpenFont(fontStyle, 56);
@@ -55,6 +56,26 @@ void Menu::update(){
 
 }
 
+void Menu::updateHighscore(){
+  _highscoreItems.clear();
+  _highscoreItems.push_back("Highscore");
+  ifstream ifs("highscore.txt");
+  string time;
+  int counter = 1;
+  while(ifs>>time){
+    char* output0 = new char[100];
+    strcpy(output0, std::to_string(counter++).c_str());
+    strcat(output0, ". ");
+    strcat(output0, time.c_str());
+    strcat(output0, " s - ");
+    string str;
+    getline(ifs, str, '\n');
+    strcat(output0, str.c_str());
+    _highscoreItems.push_back(output0);
+  }
+  ifs.close();
+}
+
 void Menu::draw(SDL_Renderer &renderer){
   SDL_SetRenderDrawColor(&renderer, _bgColor.r, _bgColor.g, _bgColor.b, _bgColor.a);
   SDL_RenderClear(&renderer);
@@ -90,7 +111,7 @@ void Menu::draw(SDL_Renderer &renderer){
       std::cerr<<"Query: "<<SDL_GetError()<<std::endl;
     }
     menuPos.x = 640/2 - w/2;
-    menuPos.y = 480/4 + i * 64;
+    menuPos.y = 480/8 + i * 64;
     menuPos.w = w;
     menuPos.h = h;
     if(SDL_RenderCopy(&renderer, text_texture, NULL, &menuPos) != 0 ){
@@ -134,8 +155,12 @@ int Menu::input(std::map<char, bool> &keys){
 
   if(keys[SDLK_SPACE]){
     if(_subMenu == 0 || _subMenu == 2){
-      int compare = _currentItems.size() - 1;
-      if(_currentSelection == 1){
+      int NEWGAME = 1;
+      int HELP = 2;
+      int OPTIONS = 3;
+      int HIGHSCORE = 4;
+      int EXIT = _currentItems.size() - 1;
+      if(_currentSelection == NEWGAME){
 	if(_subMenu == 2){
 	  _currentCrosshairColor++;
 	  if(_currentCrosshairColor == 5) //MAX
@@ -144,7 +169,7 @@ int Menu::input(std::map<char, bool> &keys){
 	else
 	  return 1;
       }
-      else if(_currentSelection == 2){
+      else if(_currentSelection == HELP){
 	if(_subMenu == 2){
 	  _subMenu = 0;
 	  _currentItems = _menuItems;
@@ -168,12 +193,17 @@ int Menu::input(std::map<char, bool> &keys){
 	  _currentSelection = 0;
 	}
       }
-      else if(_currentSelection == 3){
+      else if(_currentSelection == OPTIONS){
 	_subMenu = 2;
 	_currentItems = _optionItems;
 	_currentSelection = 1;
       }
-      else if(_currentSelection == compare){
+      else if(_currentSelection == HIGHSCORE){
+	_subMenu = 3;
+	_currentItems = _highscoreItems;
+	_currentSelection = 0;
+      }
+      else if(_currentSelection == EXIT){
 	return 2;
       }
     }

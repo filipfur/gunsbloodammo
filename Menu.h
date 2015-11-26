@@ -6,20 +6,23 @@
 #include <fstream>
 #include <iostream>
 
+using namespace std;
+
 class Menu{
 
  public:
-  Menu(std::vector<const char*>, std::vector<const char*>, std::vector<const char*>, const char* fontStyle = "BloodLust.ttf");
+  Menu(std::vector<const char*>, std::vector<const char*>, std::vector<const char*>, std::vector<const char*>, const char* fontStyle = "BloodLust.ttf");
   ~Menu();
 
   void update();
+  void updateHighscore();
   void draw(SDL_Renderer &);
 
   int input(std::map<char,bool> &);
 
  private:
 
-  std::vector<const char*> _currentItems, _menuItems, _helpItems,_optionItems;
+  std::vector<const char*> _currentItems, _menuItems, _helpItems,_optionItems, _highscoreItems;
   TTF_Font* _titleFont;
   TTF_Font* _breadFont;
   TTF_Font* _highlightFont;
