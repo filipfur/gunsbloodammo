@@ -14,11 +14,21 @@ class Map{
   ~Map();
   void draw(SDL_Renderer &, int, int);
   void update();
+
+  int getTilesize(){
+    return _tilesize;
+  }
+  int getWidth(){
+    return _mapWidth;
+  }
+  int getHeight(){
+    return _mapHeight;
+  }
   
  private:
 
   bool readMap(std::string);
-  int _tilesize;
+  int _tilesize, _mapWidth, _mapHeight;
   SDL_Surface* _tileset;
   SDL_Surface* _canvas;
   SDL_Texture* _texture;

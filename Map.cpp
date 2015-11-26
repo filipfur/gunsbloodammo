@@ -10,7 +10,8 @@ Map::Map(std::string filepath, const char* tileset, int tilesize){
   readMap(filepath);
   _tileset = IMG_Load(tileset);
   
-  _canvas = SDL_CreateRGBSurface(0, 2048, 2048, 32, 0, 0, 0, 0);
+  _canvas = SDL_CreateRGBSurface(0, _mapWidth*_tilesize, _mapHeight*_tilesize, 32, 0, 0, 0, 0);
+  std::cout<<"w"<<_mapWidth<<"h"<<_mapHeight<<"tz"<<_tilesize<<std::endl;
   _texture = NULL;
   int compare = _tiles.size();
   //cout<<compare<<endl;
@@ -55,6 +56,7 @@ bool Map::readMap(string filepath){
   ifstream fileReader;
   fileReader.open(filepath, ifstream::in);
   int x = 0, y = 0;
+  int counter = 0;
   string line;
   while(getline(fileReader, line)){
 
@@ -69,9 +71,14 @@ bool Map::readMap(string filepath){
       _tiles.push_back(std::make_pair(pos, tileID));
       x++;
     }
+    if(counter == 0)
+      counter = x;
     x = 0;
     y++;
   }
+
+  _mapWidth = counter;
+  _mapHeight = y;
 
   return true;
 
