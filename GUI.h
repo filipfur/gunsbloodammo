@@ -12,7 +12,7 @@ class GUI{
   GUI(Character*, const char* fontStyle = "BloodLust.ttf");
   ~GUI();
 
-  void draw(SDL_Renderer&);
+  void draw(SDL_Renderer&, const int);
   void update();
 
  private:

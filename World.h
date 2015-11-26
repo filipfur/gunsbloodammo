@@ -21,7 +21,7 @@ class World{
  public:
   World(int, int, const char*, const char*);
   ~World();
-  void draw(SDL_Renderer &);
+  void draw(SDL_Renderer &, const int);
   void update();
   
   int input(std::map<char,bool> &, int, int);

@@ -8,6 +8,7 @@
 #include "Game.h"
 #include <iostream>
 #include <chrono>
+#include <fstream>
 
 Game::Game() {
 
@@ -150,6 +151,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	  while(gameState == GAMEPLAY){
 	    std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - fps_start;
 	    if(elapsed.count() >= 1){
+	      _currtime += 1;
 	      std::cout<<"FPS: "<<frames<<std::endl;
 	      frames = 0;
 	      fps_start = std::chrono::high_resolution_clock::now();
@@ -187,7 +189,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	      (*_currentLevel)->update();
 	      refresh_start = std::chrono::high_resolution_clock::now();
 	    }
-	    (*_currentLevel)->draw(*_renderer);
+	    (*_currentLevel)->draw(*_renderer, _currtime);
 	    SDL_RenderPresent(_renderer);
 	  }
 	  if(gameState == GAMEOVER){
@@ -227,9 +229,8 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	    SDL_Rect pos = {640/2 - surface->w, 480/4, surface->w, surface->h};
 	    SDL_RenderCopy(_renderer, texture, NULL, &pos);
 	    SDL_DestroyTexture(texture);
-	    
 	    TTF_CloseFont(font);
-	    font = TTF_OpenFont("BloodLust.ttf", 48);
+	    /*	    font = TTF_OpenFont("BloodLust.ttf", 48);
 
 	    double time = 114.1123;
 
@@ -242,12 +243,20 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 
 	    if(!(surface = TTF_RenderText_Solid(font, pointer, color))){
 	      std::cerr<<TTF_GetError()<<std::endl;
-	    }
+	      }*/
+	    
+	    ofstream highscore;
+	    highscore.open ("highscore.txt", ios::app);
+	    highscore << "Your name here " << _currtime << "\n";
+	    highscore.close();
 
 	    SDL_RenderPresent(_renderer);
 	    
 	    SDL_Delay(2000);
-
+	    
+	    gameState = 0;
+	    _levels.clear();
+	    _currtime = 0;
 	  }
 
 	}

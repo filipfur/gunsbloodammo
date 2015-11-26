@@ -29,14 +29,14 @@ World::~World(){
 
 }
 
-void World::draw(SDL_Renderer &renderer){
+void World::draw(SDL_Renderer &renderer, const int currtime){
   SDL_SetRenderDrawColor(&renderer, 0, 0, 0, 255);
   SDL_RenderClear(&renderer);
 
   _map->draw(renderer, _cam.x, _cam.y);
   _player->draw(renderer, _cam.x, _cam.y);
   _crosshair->draw(renderer);
-  _GUI->draw(renderer);
+  _GUI->draw(renderer, currtime);
 }
 
 void World::update(){

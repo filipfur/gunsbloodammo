@@ -30,6 +30,7 @@ private:
 	std::vector<World*>::iterator _currentLevel;
 	std::map<char, bool> _keys;
 	int _mouseX, _mouseY;
+	int _currtime = 0;
 	
 };
 
