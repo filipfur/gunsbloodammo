@@ -8,11 +8,12 @@
 class Enemy : public Character{
 public:
 
-  Enemy(int x, int y, int width, int height, int hp, Weapon weapon);
-  Enemy(int x, int y, int width, int height, Weapon weapon);
-  Enemy(int x, int y, int width, int height);
-  //Enemy();
+  Enemy(int x, int y, int hp, Weapon weapon);
+  Enemy(int x, int y, Weapon weapon);
+  Enemy(int x, int y);
   ~Enemy(){}
+  void newDir();
+  void update();
   void setDir(double radians);
   double getDir();
 };

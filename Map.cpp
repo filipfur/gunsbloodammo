@@ -11,7 +11,6 @@ Map::Map(std::string filepath, const char* tileset, int tilesize){
   _tileset = IMG_Load(tileset);
   
   _canvas = SDL_CreateRGBSurface(0, _mapWidth*_tilesize, _mapHeight*_tilesize, 32, 0, 0, 0, 0);
-  std::cout<<"w"<<_mapWidth<<"h"<<_mapHeight<<"tz"<<_tilesize<<std::endl;
   _texture = NULL;
   int compare = _tiles.size();
   //cout<<compare<<endl;
@@ -79,7 +78,23 @@ bool Map::readMap(string filepath){
 
   _mapWidth = counter;
   _mapHeight = y;
-
+  /*
+  for(auto it = _tiles.begin(); it != _tiles.end(); ++it){
+    _tilemap.insert(make_pair(it->first, it->second));
+  }
+  */
   return true;
 
+}
+
+bool Map::checkCollision(SDL_Rect rect){
+  for(auto it = _tiles.begin(); it != _tiles.end(); ++it){
+    if(SDL_HasIntersection(&it->first, &rect)){
+      if(it->second != 16 && it->second != 18 && it->second != 19){
+	//std::cout<<it->second<<std::endl;
+	return true;
+      }
+    }
+  }
+  return false;
 }

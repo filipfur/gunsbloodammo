@@ -1,11 +1,16 @@
 #include "World.h"
+#include <math.h>
 
 
-World::World(int x, int y, const char* mapFile, const char* tileFile){
-  _map = new Map(mapFile, tileFile, 64);
-  _player = new Player(x, y, 8, 8);
+World::World(int x, int y, vector<pair<int, int>> enemies, const char* mapFile, const char* tileFile) {
+	_map = new Map(mapFile, tileFile, 64);
+
+	_player = new Player(x, y);
+	for (int i{ 0 }; i < enemies.size(); ++i)
+		_enemies.push_back(new Enemy(enemies.at(i).first, enemies.at(i).second));
+  
   std::ifstream file("config.txt");
-  int r,g,b;
+  int r = 0, g = 0, b = 0;
   if(file.is_open()){
     file>>r>>g>>b;
     file.close();
@@ -27,6 +32,8 @@ World::~World(){
   delete(_GUI);
   delete(_map);
   delete(_player);
+  _enemies.clear();
+  _projectiles.clear();
 
 }
 
@@ -35,7 +42,14 @@ void World::draw(SDL_Renderer &renderer, const int currtime){
   SDL_RenderClear(&renderer);
 
   _map->draw(renderer, _cam.x, _cam.y);
+  
   _player->draw(renderer, _cam.x, _cam.y);
+  for (auto it = _enemies.begin(); it != _enemies.end(); ++it) {
+	  (*it)->draw(renderer, _cam.x, _cam.y);
+  }
+  for(auto it = _projectiles.begin(); it != _projectiles.end(); ++it){
+    (*it)->draw(renderer, _cam.x, _cam.y);
+  }
   _crosshair->draw(renderer);
   _GUI->draw(renderer, currtime);
 }
@@ -55,27 +69,85 @@ _cam.y = _player->getY() - 480/2;
   else if(_cam.y > _map->getHeight()*_map->getTilesize()-480)
     _cam.y = _map->getHeight()*_map->getTilesize()-480;
 
+  int x = _player->getX();
+  int y = _player->getY();
+  
   _player->update();
+
+  if(_map->checkCollision(_player->getRect())){
+    _player->setX(x);
+    _player->setY(y);
+  }
+
+  for (auto it = _enemies.begin(); it != _enemies.end(); ++it) {
+	  x = (*it)->getX();
+	  y = (*it)->getY();
+	  (*it)->update();
+	  if (_map->checkCollision((*it)->getRect())) {
+		  (*it)->setX(x);
+		  (*it)->setY(y);
+		  (*it)->newDir();
+	  }
+  }
+  
+  bool deleted = false;
+  for(auto it = _projectiles.begin(); it != _projectiles.end(); ++it){
+    (*it)->update();
+    if(_map->checkCollision((*it)->getRect())){
+	  deleted = true;
+    }
+	for (auto it2 = _enemies.begin(); it2 != _enemies.end(); ++it2) {
+		const SDL_Rect rect1 = (*it)->getRect();
+		const SDL_Rect rect2 = (*it2)->getRect();
+		if (SDL_HasIntersection(&rect1, &rect2)) {
+			deleted = true;
+			(*it2)->decHp(50);
+		}
+	}
+	if (deleted == true) {
+		_projectiles.erase(it);
+		break;
+	}
+	
+  }
   _crosshair->update();
   _GUI->update();
   //_player->decHp(1);
 }
 
-int World::input(std::map<char,bool> &keys, int mx, int my){
+int World::input(std::map<char,bool> &keys, int mx, int my, bool mr, bool ml){
 
   if(_player->getHp() <= 0){
     return 3;
+  }
+  for (auto it = _enemies.begin(); it != _enemies.end(); ++it) {
+	  if ((*it)->getHp() <= 0) {
+		  _enemies.erase(it);
+		  break;
+	  }
   }
 /*
   if(_player->getX() >= 480){
     return 4;
   }
 */
-  _player->input(keys);
+
+  _player->setAngle(atan2((_player->getY()-_cam.y-my),(_player->getX()-_cam.x-mx))*180/M_PI);
+  
+  _player->input(keys, mx, my, mr, ml);
+
   _crosshair->input(mx, my);
 
   if(keys[SDLK_ESCAPE]){
     return 0;
+  }
+
+  if(ml){
+	  Projectile* shell;
+    if((shell = _player->shoot(-atan2((_player->getX() - _cam.x - mx), (_player->getY() - _cam.y - my)) - M_PI / 2)) != nullptr){
+      _projectiles.push_back(shell);
+    }
+    ml = false;
   }
 
   // if(keys[SDLK_UP]){

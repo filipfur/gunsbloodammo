@@ -1,24 +1,33 @@
 #include <SDL.h>
 #include <map>
+#include <SDL_image.h>
 #ifndef PROJ_H
 #define PROJ_H
 
 class Projectile{
  public:
-  Projectile(int x, int y, int width, int height, int dx, int dy, int damage);
   Projectile(int width, int height, int damage);
 
-  Projectile();
+  Projectile() {}
 
   ~Projectile();
 
 
   int getX();
   int getY();
+  void setPos(int x, int y){
+    _x = x;
+    _y = y;
+    _pos.x = x;
+    _pos.y = y;
+  }
   int getWidth();
   int getHeight();
   int getDamage();
   double getMoveSpeed();
+  SDL_Rect getRect(){
+    return _pos;
+  }
 
   double getDir();
   void setDir(double radians);
@@ -34,10 +43,13 @@ class Projectile{
   SDL_Rect _pos;
   double _dx, _dy;
   double _x, _y;
+  double _angle;
   int _width, _height;
-  double _movespeed = 0.1;
+  double _movespeed = 5;
 
   int _damage;
+  SDL_Surface* _surface;
+  SDL_Texture* _texture;
 
 };
 

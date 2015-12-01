@@ -1,7 +1,9 @@
 #include <SDL.h>
+#undef main
 #include <vector>
 #include "SDL_ttf.h"
 #include "SDL_image.h"
+#include <string>
 #include <map>
 #include <fstream>
 #include <iostream>

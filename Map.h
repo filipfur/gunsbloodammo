@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <vector>
+#include <map>
 #include <string>
 
 class Map{
@@ -24,6 +25,7 @@ class Map{
   int getHeight(){
     return _mapHeight;
   }
+  bool checkCollision(SDL_Rect);
   
  private:
 
@@ -35,6 +37,7 @@ class Map{
   SDL_Rect _pos;
 
   std::vector<std::pair<SDL_Rect, int>> _tiles;
+  std::multimap<SDL_Rect, int> _tilemap;
 
 };
 

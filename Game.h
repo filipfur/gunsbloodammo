@@ -1,10 +1,3 @@
-/*
- * Game.h
- *
- *  Created on: 29 okt 2015
- *      Author: filfu175
- */
-
 #ifndef GAME_H_
 #define GAME_H_
 #include <SDL.h>
@@ -30,9 +23,9 @@ private:
 	std::vector<World*>::iterator _currentLevel;
 	std::map<char, bool> _keys;
 	int _mouseX, _mouseY;
+	bool _mouseR, _mouseL;
 	int _currtime = 0;
 	
 };
 
 #endif
-//-static-libstdc++ -lSDL2_image -lSDL2_mixer -lSDL2_ttf `sdl2-config --cflags` `sdl2-config --libs` -Isrc -Isrc/layers -L/usr/lib/x86_64-linux-gnu -lSDL -lSDL2main -lSDL2

@@ -1,22 +1,5 @@
 #include "Projectile.h"
-
-
-Projectile::Projectile(int x, int y, int width, int height, int dx, int dy, int damage){
-  _x = x;
-  _y = y;
-  _width = width;
-  _height = height;
-  _dx = dx;
-  _dy = dy;
-  _damage = damage;
-
-  _pos.x = x;
-  _pos.y = y;
-  _pos.w = width;
-  _pos.h = height;
-
-}
-
+#include <iostream>
 
 Projectile::Projectile(int width, int height, int damage){
   _x = 0;
@@ -27,27 +10,20 @@ Projectile::Projectile(int width, int height, int damage){
   _dy = 0;
   _damage = damage;
 
-  _pos.x = 0;
-  _pos.y = 0;
-  _pos.w = 0;
-  _pos.h = 0;
-}
-
-Projectile::Projectile(){
-  _x = 0;
-  _y = 0;
-  _width = 0;
-  _height = 0;
-  _dx = 0;
-  _dy = 0;
-  _damage = 0;
+  
+  _surface = NULL;
+  _surface = IMG_Load("bullet.png");
+  if (_surface == NULL) {
+	  std::cerr << SDL_GetError() << std::endl;
+  }
+  _texture = NULL;
 
   _pos.x = 0;
   _pos.y = 0;
-  _pos.w = 0;
-  _pos.h = 0;
-}
+  _pos.w = _surface->w;
+  _pos.h = _surface->h;
 
+}
 
 Projectile::~Projectile(){
 
@@ -104,8 +80,12 @@ void Projectile::setMoveSpeed(double speed){
 
 void Projectile::draw(SDL_Renderer &renderer, int x, int y){
   
-  SDL_SetRenderDrawColor(&renderer, 255, 0, 0, 255);
-  SDL_RenderFillRect(&renderer, const_cast<SDL_Rect*>(&_pos));
+  SDL_SetRenderDrawColor(&renderer, 255, 255, 206, 255);
+  const SDL_Rect rect = {_pos.x-x, _pos.y-y, _pos.w, _pos.h};
+  if(_texture == NULL)
+    _texture = SDL_CreateTextureFromSurface(&renderer, _surface);
+  SDL_RenderCopyEx(&renderer, _texture, NULL, &rect, atan2(_dy, _dx) * 180 / M_PI + 90, NULL, SDL_FLIP_NONE);
+  //SDL_RenderClear(&renderer);
   
 }
 

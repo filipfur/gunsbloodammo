@@ -94,6 +94,8 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	const static int GAMEOVER = 3;
 	const static int NEXTLEVEL = 4;
 	const static int WINNING = 5;
+	
+	_mouseL = _mouseR = false;
 
 	if(intro){
 	  SDL_Surface* image = IMG_Load("GBA.png");
@@ -117,7 +119,8 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	  int frames = 0;
 
 	  if(_levels.empty()){
-	    _levels= {new World(64, 64, "LEVEL1.TXT", "level1.png"), new World(128,128, "LEVEL1.TXT", "level2.png")};
+		  vector<pair<int, int>> enemies = { make_pair(100, 100), make_pair(200, 200), make_pair(300, 300) };
+	    _levels= {new World(256, 256, enemies, "LEVEL1.TXT", "level1.png"), new World(128,128, enemies, "LEVEL1.TXT", "level2.png")};
 	    _currentLevel = _levels.begin();
 	  }
 	  if(gameState == NEXTLEVEL){
@@ -201,10 +204,26 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 		_mouseX = input.motion.x;
 		_mouseY = input.motion.y;
 		break;
+	      case SDL_MOUSEBUTTONDOWN:
+		if(input.button.button == SDL_BUTTON_LEFT){
+		  _mouseL = true;
+		}
+		if(input.button.button == SDL_BUTTON_RIGHT){
+		  _mouseR = true;
+		}
+		break;
+	      case SDL_MOUSEBUTTONUP:
+		if(input.button.button == SDL_BUTTON_LEFT){
+		  _mouseL = false;
+		}
+		if(input.button.button == SDL_BUTTON_RIGHT){
+		  _mouseR = false;
+		}
+		break;
 	      }
 	    }
 	    if(gameState != EXIT)
-	      gameState = (*_currentLevel)->input(_keys, _mouseX, _mouseY);
+	      gameState = (*_currentLevel)->input(_keys, _mouseX, _mouseY, _mouseL, _mouseR);
 	    elapsed = std::chrono::duration_cast<chrono::milliseconds>(std::chrono::high_resolution_clock::now() - refresh_start);
 	    if(elapsed.count()*1000 >= GAME_SPEED/10){
 	      (*_currentLevel)->update();

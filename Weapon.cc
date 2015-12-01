@@ -2,31 +2,22 @@
 
 using namespace std;
 
-Weapon::Weapon(int ammo, int max_ammo, Projectile projectile)
+Weapon::Weapon(int ammo, int max_ammo, Projectile* projectile)
 {
   _ammo = ammo;
   _max_ammo = max_ammo;
   _projectile = projectile;
+  _timer = high_resolution_clock::now();
 }
 
 Weapon::Weapon(int ammo, int max_ammo)
 {
   _ammo = ammo;
   _max_ammo = max_ammo;
+  _timer = high_resolution_clock::now();
+  _projectile = new Projectile(10,20,30);
+  _surface = IMG_Load("pistol.png");
 
-  Projectile projectile(10,20,30);
-  _projectile = projectile;
-
-}
-
-
-Weapon::Weapon()
-{
-  _ammo = 50;
-  _max_ammo = 100;
-
-  Projectile projectile(10,20,30);
-  _projectile = projectile;
 }
 
 
@@ -36,9 +27,17 @@ Weapon::~Weapon()
 
 }
 
+void Weapon::update(){
+	_ready = duration_cast<duration<double>>(high_resolution_clock::now() - _timer).count() * 1000 >= _delay;
+}
+
 int Weapon::getAmmo()
 {
   return _ammo;
+}
+
+SDL_Surface* Weapon::getSurface() {
+	return _surface;
 }
 
 int Weapon::getMaxAmmo()
@@ -46,9 +45,11 @@ int Weapon::getMaxAmmo()
   return _max_ammo;
 }
 
-Projectile Weapon::getProjectile()
+Projectile* Weapon::getProjectile()
 {
-  return _projectile;
+  _timer = high_resolution_clock::now();
+  _ready = duration_cast<duration<double>>(high_resolution_clock::now() - _timer).count() * 1000 >= _delay;
+  return new Projectile(10,20,30);
 }
 
 

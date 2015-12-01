@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <map>
+
 #ifndef POWER_H
 #define POWER_H
 
