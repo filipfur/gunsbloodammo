@@ -77,15 +77,14 @@ void Character::incAmmo(int ammo_gain)
 
 //returnerar en projektil och sänker antal skott.
 //Anroparen får se till att det finns skott kvar.
-Projectile* Character::shoot(double rad){
+Projectile* Character::shoot(double rad, bool friendly){
   if(_weapon.isReady()){
 	decAmmo();
     Projectile* p = _weapon.getProjectile();
 	p->setDir(rad);
-	std::cout << -rad<< std::endl;
-	std::cout << "COS" << cos(-rad)*_surface->w << std::endl;
-	std::cout << "SIN" << sin(-rad)*_surface->h << std::endl;
     p->setPos(_x+_surface->w/2, _y+_surface->h/2);
+	if(friendly)
+		p->setFriendly();
     return p;
   }
   return nullptr;
@@ -97,15 +96,18 @@ void Character::draw(SDL_Renderer &renderer, int camx, int camy){
 	  _texture = SDL_CreateTextureFromSurface(&renderer, _surface);
   }
   SDL_RenderCopyEx(&renderer, _texture, NULL, &rect, _angle, NULL, SDL_FLIP_NONE);
+  //SDL_RenderDrawRect(&renderer, &rect);
 }
 
-void Character::update(){
+void Character::update() {
 
-  _weapon.update();
-  _x += _dx*_movespeed;
-  _y += _dy*_movespeed;
+	_weapon.update();
+	if (_move) {
+		_x += _dx*_movespeed;
+		_y += _dy*_movespeed;
 
-  _pos.x = _x;
-  _pos.y = _y;
+		_pos.x = _x;
+		_pos.y = _y;
+	}
 
 }

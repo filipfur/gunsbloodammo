@@ -10,13 +10,14 @@ Weapon::Weapon(int ammo, int max_ammo, Projectile* projectile)
   _timer = high_resolution_clock::now();
 }
 
-Weapon::Weapon(int ammo, int max_ammo)
+Weapon::Weapon(int ammo, int max_ammo, const char* filepath, const char* filepath2)
 {
   _ammo = ammo;
   _max_ammo = max_ammo;
   _timer = high_resolution_clock::now();
   _projectile = new Projectile(10,20,30);
-  _surface = IMG_Load("pistol.png");
+  _surface = IMG_Load(filepath);
+  _icon = IMG_Load(filepath2);
 
 }
 

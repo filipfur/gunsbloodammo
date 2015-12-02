@@ -10,7 +10,7 @@ public:
 
   Enemy(int x, int y, int hp, Weapon weapon);
   Enemy(int x, int y, Weapon weapon);
-  Enemy(int x, int y);
+  Enemy(int x, int y, const char*, const char*);
   ~Enemy(){}
   void newDir();
   void update();

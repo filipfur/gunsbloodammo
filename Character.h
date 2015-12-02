@@ -33,13 +33,16 @@ class Character{
   void setWeapon(Weapon weapon);
   void setSpeed(double speed);
 
-  Projectile* shoot(double);
+  Projectile* shoot(double, bool friendly = false);
   void decHp(int damage);
   void incHp(int hp_gain);
   void decAmmo();
   void incAmmo(int ammo_gain);
   void setAngle(double angle){
     _angle = angle;
+  }
+  void setMoving(bool b) {
+	  _move = b;
   }
   SDL_Rect getRect(){
     return _pos;
@@ -65,6 +68,7 @@ class Character{
   SDL_Surface* _surface;
   SDL_Texture* _texture;
   double _angle;
+  bool _move = true;
 };
 
 #endif

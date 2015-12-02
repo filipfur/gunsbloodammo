@@ -19,6 +19,8 @@ class GUI{
   TTF_Font* _font;
   Character* _monitored;
   SDL_Color _healthColor, _ammoColor, _bgColor;
+  SDL_Surface* _surface;
+  SDL_Texture* _texture;
 
 };
 

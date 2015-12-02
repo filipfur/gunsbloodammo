@@ -6,8 +6,10 @@ World::World(int x, int y, vector<pair<int, int>> enemies, const char* mapFile, 
 	_map = new Map(mapFile, tileFile, 64);
 
 	_player = new Player(x, y);
+	vector<const char*> enemyTypes = { "enemy1.png", "enemy2.png", "enemy3.png" };
+	vector<const char*> gunTypes = { "pistol.png", "m4.png", "shotgun.png" };
 	for (int i{ 0 }; i < enemies.size(); ++i)
-		_enemies.push_back(new Enemy(enemies.at(i).first, enemies.at(i).second));
+		_enemies.push_back(new Enemy(enemies.at(i).first, enemies.at(i).second, enemyTypes.at(i%enemyTypes.size()), gunTypes.at(i&gunTypes.size())));
   
   std::ifstream file("config.txt");
   int r = 0, g = 0, b = 0;
@@ -82,6 +84,18 @@ _cam.y = _player->getY() - 480/2;
   for (auto it = _enemies.begin(); it != _enemies.end(); ++it) {
 	  x = (*it)->getX();
 	  y = (*it)->getY();
+	  if (sqrt((x - _player->getX())*(x - _player->getX()) + (y - _player->getY())*(y - _player->getY())) <= 200) {
+
+		  (*it)->setDir(-atan2((x - _cam.x - _player->getX()), (y - _cam.y - _player->getY())) - M_PI / 2);
+		  Projectile* shell;
+		  if ((shell = (*it)->shoot(-atan2((x - _cam.x - _player->getX()), (y - _cam.y - _player->getY())) - M_PI / 2)) != nullptr) {
+			  _projectiles.push_back(shell);
+		  }
+		  (*it)->setMoving(false);
+	  }
+	  else {
+		  (*it)->setMoving(true);
+	  }
 	  (*it)->update();
 	  if (_map->checkCollision((*it)->getRect())) {
 		  (*it)->setX(x);
@@ -99,10 +113,16 @@ _cam.y = _player->getY() - 480/2;
 	for (auto it2 = _enemies.begin(); it2 != _enemies.end(); ++it2) {
 		const SDL_Rect rect1 = (*it)->getRect();
 		const SDL_Rect rect2 = (*it2)->getRect();
-		if (SDL_HasIntersection(&rect1, &rect2)) {
+		if (SDL_HasIntersection(&rect1, &rect2) && (*it)->isFriendly()) {
 			deleted = true;
 			(*it2)->decHp(50);
 		}
+	}
+	const SDL_Rect rect1 = (*it)->getRect();
+	const SDL_Rect rect2 = _player->getRect();
+	if (SDL_HasIntersection(&rect1, &rect2) && !(*it)->isFriendly()) {
+		deleted = true;
+		_player->decHp(20);
 	}
 	if (deleted == true) {
 		_projectiles.erase(it);
@@ -144,7 +164,7 @@ int World::input(std::map<char,bool> &keys, int mx, int my, bool mr, bool ml){
 
   if(ml){
 	  Projectile* shell;
-    if((shell = _player->shoot(-atan2((_player->getX() - _cam.x - mx), (_player->getY() - _cam.y - my)) - M_PI / 2)) != nullptr){
+    if((shell = _player->shoot(-atan2((_player->getX() - _cam.x - mx), (_player->getY() - _cam.y - my)) - M_PI / 2, true)) != nullptr){
       _projectiles.push_back(shell);
     }
     ml = false;

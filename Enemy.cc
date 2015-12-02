@@ -6,13 +6,14 @@ Enemy::Enemy(int x, int y, int hp, Weapon weapon){
 Enemy::Enemy(int x, int y, Weapon weapon){
 
 }
-Enemy::Enemy(int x, int y){
+Enemy::Enemy(int x, int y, const char* filepath, const char* filepath2){
   _texture = NULL;
-  _surface = IMG_Load("enemy3.png");
+  SDL_Surface* enemy = IMG_Load(filepath);
   _hp = 100;
   _hpMax = 100;
-  Weapon weapon(100, 100);
+  Weapon weapon(100, 100, filepath2, "never used");
   _weapon = weapon;
+  _surface = SDL_CreateRGBSurface(0, enemy->w + _weapon.getSurface()->w, enemy->h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
   _x = x;
   _y = y;
   _pos.x = x;
@@ -22,6 +23,11 @@ Enemy::Enemy(int x, int y){
   _dx = cos(0.5);
   _dy = sin(0.5);
   _angle = 0.5 * 180 / M_PI + 180;
+
+  SDL_Rect src = { _weapon.getSurface()->w - 4, 0, enemy->w, enemy->h };
+  SDL_Rect src2 = { 0, enemy->h - _weapon.getSurface()->h - 4, _weapon.getSurface()->w, _weapon.getSurface()->h };
+  SDL_BlitSurface(enemy, NULL, _surface, &src);
+  SDL_BlitSurface(_weapon.getSurface(), NULL, _surface, &src2);
 }
 
 void Enemy::update() {

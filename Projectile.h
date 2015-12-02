@@ -24,6 +24,12 @@ class Projectile{
   int getWidth();
   int getHeight();
   int getDamage();
+  void setFriendly() {
+	  _friendly = true;
+  }
+  bool isFriendly() {
+	  return _friendly;
+  }
   double getMoveSpeed();
   SDL_Rect getRect(){
     return _pos;
@@ -46,7 +52,7 @@ class Projectile{
   double _angle;
   int _width, _height;
   double _movespeed = 5;
-
+  bool _friendly = false;
   int _damage;
   SDL_Surface* _surface;
   SDL_Texture* _texture;

@@ -10,12 +10,16 @@ class Weapon
 
   Weapon(int ammo, int max_ammo, Projectile* projectile);
 
-  Weapon(int ammo, int max_ammo);
+  Weapon(int ammo, int max_ammo, const char*, const char*);
   Weapon() {}
 
   ~Weapon();
 
   void update();
+
+  SDL_Surface* getIcon() {
+	  return _icon;
+  }
 
   int getAmmo();
   int getMaxAmmo();
@@ -38,7 +42,7 @@ class Weapon
   Projectile* _projectile;
   bool _ready;
   high_resolution_clock::time_point _timer;
-  SDL_Surface* _surface;
+  SDL_Surface* _surface, * _icon;
 };
 
 
