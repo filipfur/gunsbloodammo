@@ -29,7 +29,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	}
 
 	//Create a Window
-	_window = SDL_CreateWindow("Guns Blood N' Ammo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
+	_window = SDL_CreateWindow("Guns Blood N' Ammo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_FULLSCREEN);
 	if(_window == NULL){
 		std::cerr<<"Failed to create a SDL_Window: "<<SDL_GetError()<<std::endl;
 		return 2;
@@ -120,7 +120,9 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 
 	  if(_levels.empty()){
 		  vector<pair<int, int>> enemies = { make_pair(100, 100), make_pair(200, 200), make_pair(300, 300) };
-	    _levels= {new World(256, 256, enemies, "LEVEL1.TXT", "level1.png"), new World(128,128, enemies, "LEVEL1.TXT", "level2.png")};
+		  _levels= {new World(256, 256, enemies, "LEVEL1.TXT", "level1.png"),
+			    new World(128,128, enemies, "LEVEL1.TXT", "level2.png"), 
+			    new World(480,480, enemies, "LEVEL1.TXT", "level3.png")};
 	    _currentLevel = _levels.begin();
 	  }
 	  if(gameState == NEXTLEVEL){
@@ -223,7 +225,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	      }
 	    }
 	    if(gameState != EXIT)
-	      gameState = (*_currentLevel)->input(_keys, _mouseX, _mouseY, _mouseL, _mouseR);
+	      gameState = (*_currentLevel)->input(_keys, _mouseX, _mouseY, _mouseR, _mouseL);
 	    elapsed = std::chrono::duration_cast<chrono::milliseconds>(std::chrono::high_resolution_clock::now() - refresh_start);
 	    if(elapsed.count()*1000 >= GAME_SPEED/10){
 	      (*_currentLevel)->update();

@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <map>
 
 #ifndef POWER_H
@@ -14,9 +15,8 @@ class Powerup{
   int WEAPON = 1;
   int HEALTH = 2;
 
-  Powerup(int x, int y, Type type, int value, int width, int height);
   Powerup(int x, int y, Type type, int value);
-  Powerup();
+  Powerup(){}
   ~Powerup();
  
 
@@ -24,6 +24,9 @@ class Powerup{
   int getY();
   int getValue();
   int getType();
+  SDL_Rect getRect(){
+    return _pos;
+  }
 
   void draw(SDL_Renderer &, int ,int);
  
@@ -34,7 +37,8 @@ class Powerup{
   int _value;
   Type _type;
   SDL_Rect _pos;
-  
+  SDL_Surface* _surface;
+  SDL_Texture* _texture;
 };
 
 #endif

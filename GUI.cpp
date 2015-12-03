@@ -10,11 +10,13 @@ GUI::GUI(Character* monitored, const char* fontStyle){
   _ammoColor = {154, 255, 72, 255};
   _bgColor = {0, 0, 0, 255};
   _monitored = monitored;
-  _surface = IMG_Load("hud.png");
+  //_surface = IMG_Load("hud.png");
+  /*
   SDL_Surface* icon = _monitored->getWeapon().getIcon();
   SDL_Rect dest = { _surface->w / 2 - 2*icon->w/3, _surface->h / 2 - icon->h/2, icon->w, icon->h };
   SDL_BlitSurface(icon, NULL, _surface, &dest);
   _texture = NULL;
+  */
 }
 
 GUI::~GUI(){
@@ -89,6 +91,8 @@ void GUI::draw(SDL_Renderer& renderer, const int currtime){
     std::cerr<<SDL_GetError()<<std::endl;
   }
 
+  /*
+
   if (_texture == NULL) {
 	  _texture = SDL_CreateTextureFromSurface(&renderer, _surface);
   }
@@ -96,6 +100,7 @@ void GUI::draw(SDL_Renderer& renderer, const int currtime){
   const SDL_Rect hud = { 0, 480 - _surface->h-64, _surface->w, _surface->h };
 
   SDL_RenderCopy(&renderer, _texture, NULL, &hud);
+  */
 
   SDL_DestroyTexture(health_texture);
   SDL_DestroyTexture(ammo_texture);

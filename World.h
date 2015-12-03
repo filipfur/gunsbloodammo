@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "Crosshair.h"
 #include "Projectile.h"
+#include "Powerup.h"
 #include <SDL.h>
 #include <map>
 #include <vector>
@@ -36,6 +37,7 @@ class World{
   Crosshair* _crosshair;
   GUI* _GUI;
   std::vector<Projectile*> _projectiles;
+  std::vector<Powerup*> _powerups;
   
 
 };

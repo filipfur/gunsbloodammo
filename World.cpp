@@ -8,8 +8,10 @@ World::World(int x, int y, vector<pair<int, int>> enemies, const char* mapFile, 
 	_player = new Player(x, y);
 	vector<const char*> enemyTypes = { "enemy1.png", "enemy2.png", "enemy3.png" };
 	vector<const char*> gunTypes = { "pistol.png", "m4.png", "shotgun.png" };
-	for (int i{ 0 }; i < enemies.size(); ++i)
+	for (unsigned int i{ 0 }; i < enemies.size(); ++i)
 		_enemies.push_back(new Enemy(enemies.at(i).first, enemies.at(i).second, enemyTypes.at(i%enemyTypes.size()), gunTypes.at(i&gunTypes.size())));
+
+	_powerups.push_back(new Powerup(512-64, 512, 0, 20));
   
   std::ifstream file("config.txt");
   int r = 0, g = 0, b = 0;
@@ -50,6 +52,9 @@ void World::draw(SDL_Renderer &renderer, const int currtime){
 	  (*it)->draw(renderer, _cam.x, _cam.y);
   }
   for(auto it = _projectiles.begin(); it != _projectiles.end(); ++it){
+    (*it)->draw(renderer, _cam.x, _cam.y);
+  }
+  for(auto it = _powerups.begin(); it != _powerups.end(); ++it){
     (*it)->draw(renderer, _cam.x, _cam.y);
   }
   _crosshair->draw(renderer);
@@ -130,6 +135,18 @@ _cam.y = _player->getY() - 480/2;
 	}
 	
   }
+
+  for(auto it = _powerups.begin(); it != _powerups.end(); ++it){
+    const SDL_Rect rect1 = (*it)->getRect();
+    const SDL_Rect rect2 = _player->getRect();
+    if(SDL_HasIntersection(&rect1, &rect2)){
+      if((*it)->getType() == 0)
+	_player->incAmmo((*it)->getValue());
+      _powerups.erase(it);
+      break;
+    }
+  }
+
   _crosshair->update();
   _GUI->update();
   //_player->decHp(1);
@@ -146,11 +163,11 @@ int World::input(std::map<char,bool> &keys, int mx, int my, bool mr, bool ml){
 		  break;
 	  }
   }
-/*
-  if(_player->getX() >= 480){
+
+  if(_enemies.empty()){
     return 4;
   }
-*/
+  
 
   _player->setAngle(atan2((_player->getY()-_cam.y-my),(_player->getX()-_cam.x-mx))*180/M_PI);
   
@@ -162,7 +179,7 @@ int World::input(std::map<char,bool> &keys, int mx, int my, bool mr, bool ml){
     return 0;
   }
 
-  if(ml){
+  if(ml && _player->getAmmo() > 0){
 	  Projectile* shell;
     if((shell = _player->shoot(-atan2((_player->getX() - _cam.x - mx), (_player->getY() - _cam.y - my)) - M_PI / 2, true)) != nullptr){
       _projectiles.push_back(shell);
