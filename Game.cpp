@@ -29,7 +29,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	}
 
 	//Create a Window
-	_window = SDL_CreateWindow("Guns Blood N' Ammo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_FULLSCREEN);
+	_window = SDL_CreateWindow("Guns Blood N' Ammo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_OPENGL);
 	if(_window == NULL){
 		std::cerr<<"Failed to create a SDL_Window: "<<SDL_GetError()<<std::endl;
 		return 2;
@@ -119,7 +119,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	  int frames = 0;
 
 	  if(_levels.empty()){
-		  vector<pair<int, int>> enemies = { make_pair(100, 100), make_pair(200, 200), make_pair(300, 300) };
+		  vector<pair<int, int>> enemies = { make_pair(840, 200), make_pair(775, 500), make_pair(320, 800) };
 		  _levels= {new World(256, 256, enemies, "LEVEL1.TXT", "level1.png"),
 			    new World(128,128, enemies, "LEVEL1.TXT", "level2.png"), 
 			    new World(480,480, enemies, "LEVEL1.TXT", "level3.png")};
@@ -261,9 +261,10 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	    
 	    
 	    SDL_Color color = {255, 255, 255, 255};
+	    SDL_Color bgColor = {0, 0, 0, 255};
 	    TTF_Font* font = TTF_OpenFont("BloodLust.ttf", 72);
 	    SDL_Surface* surface = NULL;
-	    if(!(surface = TTF_RenderText_Solid(font, "Victory", color))){
+	    if(!(surface = TTF_RenderText_Shaded(font, "Victory", color, bgColor))){
 	      std::cerr<<TTF_GetError()<<std::endl;
 	    }
 	    SDL_Texture* texture = NULL;
@@ -284,7 +285,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	    SDL_Surface* text_surface = NULL;
 	    SDL_Texture* text_texture = NULL;
 
-	    if(!(text_surface = TTF_RenderText_Solid(font, pointer, color))){
+	    if(!(text_surface = TTF_RenderText_Shaded(font, pointer, color, bgColor))){
 	      std::cerr<<TTF_GetError()<<std::endl;
 	    }
 
@@ -361,7 +362,7 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 		  SDL_Surface* text_surface2 = NULL;
 		  SDL_Texture* text_texture2 = NULL;
 
-		  if(!(text_surface2 = TTF_RenderText_Solid(font, pointer2, color))){
+		  if(!(text_surface2 = TTF_RenderText_Shaded(font, pointer2, color, bgColor))){
 		    std::cerr<<TTF_GetError()<<std::endl;
 		  }
 

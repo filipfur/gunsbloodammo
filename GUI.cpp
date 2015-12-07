@@ -35,7 +35,8 @@ void GUI::draw(SDL_Renderer& renderer, const int currtime){
   char output[100];
   strcpy(output,"HP: ");
   strcat(output,std::to_string(_monitored->getHp()).c_str());
-  strcat(output,"/");
+  strcat(output,"/ ");
+  strcat(output,std::to_string(_monitored->getMaxHp()).c_str());
   //strcat(output,std::to_string(_monitored->getMaxHp()).c_str());
   const char* pointer = output;
   if(!(health_surface = TTF_RenderText_Solid(_font, pointer, _healthColor))){
