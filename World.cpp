@@ -8,8 +8,10 @@ World::World(int x, int y, vector<pair<int, int>> enemies, const char* mapFile, 
 	_player = new Player(x, y);
 	vector<const char*> enemyTypes = { "enemy1.png", "enemy2.png", "enemy3.png" };
 	vector<const char*> gunTypes = { "pistol.png", "m4.png", "shotgun.png" };
-	for (unsigned int i{ 0 }; i < enemies.size(); ++i)
-		_enemies.push_back(new Enemy(enemies.at(i).first, enemies.at(i).second, enemyTypes.at(i%enemyTypes.size()), gunTypes.at(i&gunTypes.size())));
+	for (unsigned int i{ 0 }; i < enemies.size(); ++i){
+	  cout<<"i: "<<i<<' '<<i%enemyTypes.size()<<endl;
+		_enemies.push_back(new Enemy(enemies.at(i).first, enemies.at(i).second, enemyTypes.at(i%enemyTypes.size()), gunTypes.at(i%gunTypes.size())));
+	}
 
 	_powerups.push_back(new Powerup(512-64, 512, 0, 20));
   
@@ -91,9 +93,9 @@ _cam.y = _player->getY() - 480/2;
 	  y = (*it)->getY();
 	  if (sqrt((x - _player->getX())*(x - _player->getX()) + (y - _player->getY())*(y - _player->getY())) <= 200) {
 
-		  (*it)->setDir(-atan2((x - _cam.x - _player->getX()), (y - _cam.y - _player->getY())) - M_PI / 2);
+		  (*it)->setDir(-atan2((x - _player->getX()), (y - _player->getY())) - M_PI / 2 );
 		  Projectile* shell;
-		  if ((shell = (*it)->shoot(-atan2((x - _cam.x - _player->getX()), (y - _cam.y - _player->getY())) - M_PI / 2)) != nullptr) {
+		  if ((shell = (*it)->shoot(-atan2((x - _player->getX()), (y - _player->getY())) - M_PI / 2)) != nullptr) {
 			  _projectiles.push_back(shell);
 		  }
 		  (*it)->setMoving(false);
@@ -120,14 +122,14 @@ _cam.y = _player->getY() - 480/2;
 		const SDL_Rect rect2 = (*it2)->getRect();
 		if (SDL_HasIntersection(&rect1, &rect2) && (*it)->isFriendly()) {
 			deleted = true;
-			(*it2)->decHp(50);
+			(*it2)->decHp(40);
 		}
 	}
 	const SDL_Rect rect1 = (*it)->getRect();
 	const SDL_Rect rect2 = _player->getRect();
 	if (SDL_HasIntersection(&rect1, &rect2) && !(*it)->isFriendly()) {
 		deleted = true;
-		_player->decHp(20);
+		_player->decHp(8);
 	}
 	if (deleted == true) {
 		_projectiles.erase(it);
@@ -169,7 +171,7 @@ int World::input(std::map<char,bool> &keys, int mx, int my, bool mr, bool ml){
   }
   
 
-  _player->setAngle(atan2((_player->getY()-_cam.y-my),(_player->getX()-_cam.x-mx))*180/M_PI);
+  _player->setAngle(atan2((_player->getY()-_cam.y-my),(_player->getX()-_cam.x-mx))*180/M_PI + 180);
   
   _player->input(keys, mx, my, mr, ml);
 

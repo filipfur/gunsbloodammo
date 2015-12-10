@@ -9,22 +9,28 @@ Player::Player(int x, int y, Weapon weapon){
 Player::Player(int x, int y){
   _texture = NULL;
   SDL_Surface* player = IMG_Load("player.png");
-  Weapon weapon(100, 100, "pistol.png", "pistol_icon.png");
+  Weapon weapon(100, 100, "m4.png", "pistol_icon.png");
   _weapon = weapon;
   _surface = SDL_CreateRGBSurface(0, player->w + _weapon.getSurface()->w, player->h, 32, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 
-  _hp = 2000;
-  _hpMax = 2000;
+  _hp = 100;
+  _hpMax = 100;
+  _width = player->w;
+  _height = player->h;
   
   _x = x;
   _y = y;
+  _rect.x = x;
+  _rect.y = y;
+  _rect.w = _width;
+  _rect.h = _height;
   _pos.x = x;
   _pos.y = y;
   _pos.w = _surface->w;
   _pos.h = _surface->h;
   _dx = _dy = _angle = 0;
-  SDL_Rect src = { _weapon.getSurface()->w - 4, 0, player->w, player->h };
-  SDL_Rect src2 = { 0, player->h - _weapon.getSurface()->h - 4, _weapon.getSurface()->w, _weapon.getSurface()->h };
+  SDL_Rect src = { 0, 0, player->w, player->h };
+  SDL_Rect src2 = { player->w - 4, player->h/2-_weapon.getSurface()->h/2, _weapon.getSurface()->w, _weapon.getSurface()->h };
   SDL_BlitSurface(player, NULL, _surface, &src);
   SDL_BlitSurface(_weapon.getSurface(), NULL, _surface, &src2);
   _movespeed = 2;

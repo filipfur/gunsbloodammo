@@ -38,7 +38,7 @@ class Weapon
 
   int _ammo;
   int _max_ammo;
-  int _delay = 400;
+  int _delay = 250;
   Projectile* _projectile;
   bool _ready;
   high_resolution_clock::time_point _timer;

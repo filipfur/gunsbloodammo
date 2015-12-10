@@ -57,9 +57,9 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 	menuItems.push_back("Exit");
 
 	helpItems.push_back("Help");
-	helpItems.push_back("This is a Top-Down-Shooter");
-	helpItems.push_back("game developed for pc using");
-	helpItems.push_back("C++ and SDL 2");
+	helpItems.push_back("WASD to control the player");
+	helpItems.push_back("Left mouse button to shoot");
+	helpItems.push_back("Kill all enemies to proceed");
 	helpItems.push_back("Press Space to return.");
 
 	std::vector<const char*> optionItems = {"Options", "Crosshair Color: ", "Back"};
@@ -120,9 +120,11 @@ int Game::run(int screenWidth, int screenHeight, int GAME_SPEED, bool intro){
 
 	  if(_levels.empty()){
 		  vector<pair<int, int>> enemies = { make_pair(840, 200), make_pair(775, 500), make_pair(320, 800) };
+		  vector<pair<int, int>> enemies2 = { make_pair(16*64, 5*64), make_pair(30*64, 10*64)};
+		  vector<pair<int, int>> enemies3 = {make_pair(16*64, 19*64), make_pair(17*64, 19*64), make_pair(16*64, 20*64), make_pair(17*64, 20*64)};
 		  _levels= {new World(256, 256, enemies, "LEVEL1.TXT", "level1.png"),
-			    new World(128,128, enemies, "LEVEL1.TXT", "level2.png"), 
-			    new World(480,480, enemies, "LEVEL1.TXT", "level3.png")};
+			    new World(128,128, enemies2, "LEVEL2.TXT", "level2.png"), 
+			    new World(480+64,480+64, enemies3, "LEVEL3.TXT", "level3.png")};
 	    _currentLevel = _levels.begin();
 	  }
 	  if(gameState == NEXTLEVEL){

@@ -90,7 +90,7 @@ bool Map::readMap(string filepath){
 bool Map::checkCollision(SDL_Rect rect){
   for(auto it = _tiles.begin(); it != _tiles.end(); ++it){
     if(SDL_HasIntersection(&it->first, &rect)){
-      if(it->second != 16 && it->second != 18 && it->second != 19){
+      if(it->second != 16 && it->second != 18 && it->second != 19 && it->second != 8){
 	//std::cout<<it->second<<std::endl;
 	return true;
       }

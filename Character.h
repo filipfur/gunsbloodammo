@@ -45,7 +45,7 @@ class Character{
 	  _move = b;
   }
   SDL_Rect getRect(){
-    return _pos;
+    return _rect;
   }
 
   void draw(SDL_Renderer &, int, int);
@@ -56,7 +56,7 @@ class Character{
 
  protected:
 
-  SDL_Rect _pos;
+  SDL_Rect _pos, _rect;
   char _direction;
   double _dx, _dy;
   double _x, _y;

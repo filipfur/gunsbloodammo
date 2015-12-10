@@ -82,7 +82,7 @@ Projectile* Character::shoot(double rad, bool friendly){
 	decAmmo();
     Projectile* p = _weapon.getProjectile();
 	p->setDir(rad);
-    p->setPos(_x+_surface->w/2, _y+_surface->h/2);
+	p->setPos(_x+_rect.w/2, _y+_rect.h/2);
 	if(friendly)
 		p->setFriendly();
     return p;
@@ -95,8 +95,10 @@ void Character::draw(SDL_Renderer &renderer, int camx, int camy){
   if (_texture == NULL){
 	  _texture = SDL_CreateTextureFromSurface(&renderer, _surface);
   }
-  SDL_RenderCopyEx(&renderer, _texture, NULL, &rect, _angle, NULL, SDL_FLIP_NONE);
-  //SDL_RenderDrawRect(&renderer, &rect);
+  const SDL_Point mid = {_width/2, _height/2};
+  SDL_RenderCopyEx(&renderer, _texture, NULL, &rect, _angle, &mid, SDL_FLIP_NONE);
+  const SDL_Rect out = {_rect.x-camx, _rect.y-camy, _rect.w, _rect.h};
+  SDL_RenderDrawRect(&renderer, &out);
 }
 
 void Character::update() {
@@ -108,6 +110,8 @@ void Character::update() {
 
 		_pos.x = _x;
 		_pos.y = _y;
+		_rect.x = _x;
+		_rect.y = _y;
 	}
 
 }
