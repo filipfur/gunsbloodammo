@@ -2,11 +2,13 @@
 #define GAME_H_
 #include <SDL.h>
 #include <SDL_ttf.h>
-#include "Menu.h"
 #include <vector>
-#include "World.h"
 #include <map>
 #include <string>
+#include <algorithm>
+#include "Menu.h"
+#include "World.h"
+#include "Player.h"
 
 
 

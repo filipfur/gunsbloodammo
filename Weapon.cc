@@ -10,7 +10,8 @@ Weapon::Weapon(int ammo, int max_ammo, Projectile* projectile)
   _timer = high_resolution_clock::now();
 }
 
-Weapon::Weapon(int ammo, int max_ammo, const char* filepath, const char* filepath2)
+Weapon::Weapon(int ammo, int max_ammo, const char* filepath,
+	       const char* filepath2)
 {
   _ammo = ammo;
   _max_ammo = max_ammo;
@@ -29,7 +30,12 @@ Weapon::~Weapon()
 }
 
 void Weapon::update(){
-	_ready = duration_cast<duration<double>>(high_resolution_clock::now() - _timer).count() * 1000 >= _delay;
+  _ready = duration_cast<duration<double>>(high_resolution_clock::now() -
+					   _timer).count() * 1000 >= _delay;
+}
+
+SDL_Surface* Weapon::getIcon() {
+  return _icon;
 }
 
 int Weapon::getAmmo()
@@ -49,7 +55,8 @@ int Weapon::getMaxAmmo()
 Projectile* Weapon::getProjectile()
 {
   _timer = high_resolution_clock::now();
-  _ready = duration_cast<duration<double>>(high_resolution_clock::now() - _timer).count() * 1000 >= _delay;
+  _ready = duration_cast<duration<double>>(high_resolution_clock::now() -
+					   _timer).count() * 1000 >= _delay;
   return new Projectile(10,20,30);
 }
 
@@ -71,3 +78,6 @@ void Weapon::incAmmo(int x)
     }
 }
 
+bool Weapon::isReady(){
+  return _ready;
+}

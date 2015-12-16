@@ -1,5 +1,4 @@
 #include "Projectile.h"
-#include <iostream>
 
 Projectile::Projectile(int width, int height, int damage){
   _x = 0;
@@ -41,7 +40,12 @@ int Projectile::getY()
   return _y;
 }
 
-
+void Projectile::setPos(int x, int y){
+  _x = x;
+  _y = y;
+  _pos.x = x;
+  _pos.y = y;
+}
 
 int Projectile::getWidth()
 {
@@ -59,8 +63,20 @@ int Projectile::getDamage()
   return _damage;
 }
 
+void Projectile::setFriendly() {
+  _friendly = true;
+}
+
+bool Projectile::isFriendly() {
+  return _friendly;
+}
+
 double Projectile::getMoveSpeed(){
   return _movespeed;
+}
+
+SDL_Rect Projectile::getRect(){
+  return _pos;
 }
 
 double Projectile::getDir(){
@@ -84,8 +100,8 @@ void Projectile::draw(SDL_Renderer &renderer, int x, int y){
   const SDL_Rect rect = {_pos.x-x, _pos.y-y, _pos.w, _pos.h};
   if(_texture == NULL)
     _texture = SDL_CreateTextureFromSurface(&renderer, _surface);
-  SDL_RenderCopyEx(&renderer, _texture, NULL, &rect, atan2(_dy, _dx) * 180 / M_PI + 90, NULL, SDL_FLIP_NONE);
-  //SDL_RenderClear(&renderer);
+  SDL_RenderCopyEx(&renderer, _texture, NULL, &rect,
+		   atan2(_dy, _dx) * 180 / M_PI + 90, NULL, SDL_FLIP_NONE);
   
 }
 

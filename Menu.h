@@ -13,7 +13,9 @@ using namespace std;
 class Menu{
 
  public:
-  Menu(std::vector<const char*>, std::vector<const char*>, std::vector<const char*>, std::vector<const char*>, const char* fontStyle = "BloodLust.ttf");
+  Menu(std::vector<const char*>, std::vector<const char*>,
+       std::vector<const char*>, std::vector<const char*>,
+       const char* fontStyle = "BloodLust.ttf");
   ~Menu();
 
   void update();
@@ -24,11 +26,13 @@ class Menu{
 
  private:
 
-  std::vector<const char*> _currentItems, _menuItems, _helpItems,_optionItems, _highscoreItems;
+  std::vector<const char*> _currentItems, _menuItems,
+    _helpItems,_optionItems, _highscoreItems;
   TTF_Font* _titleFont;
   TTF_Font* _breadFont;
   TTF_Font* _highlightFont;
-  SDL_Color _titleColor1, _titleColor2, _breadColor, _highlightColor, _bgColor, _crosshairColor;
+  SDL_Color _titleColor1, _titleColor2, _breadColor,
+    _highlightColor, _bgColor, _crosshairColor;
   int _currentSelection, _subMenu, _currentCrosshairColor;
 
 };

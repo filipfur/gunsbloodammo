@@ -1,6 +1,8 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include <fstream>
+#include <sstream>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <vector>
@@ -16,15 +18,9 @@ class Map{
   void draw(SDL_Renderer &, int, int);
   void update();
 
-  int getTilesize(){
-    return _tilesize;
-  }
-  int getWidth(){
-    return _mapWidth;
-  }
-  int getHeight(){
-    return _mapHeight;
-  }
+  int getTilesize();
+  int getWidth();
+  int getHeight();
   bool checkCollision(SDL_Rect);
   
  private:

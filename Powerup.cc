@@ -43,6 +43,10 @@ int Powerup::getType()
   return _type;
 }
 
+SDL_Rect Powerup::getRect(){
+  return _pos;
+}
+
 void Powerup::draw(SDL_Renderer &renderer, int x, int y){
 
   if(_texture == NULL){

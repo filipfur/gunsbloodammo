@@ -1,3 +1,10 @@
+#include <SDL.h>
+#include <map>
+#include <vector>
+#include <math.h>
+#include <iostream>
+#include <fstream>
+
 #include "Game.h"
 #include "Character.h"
 #include "Player.h"
@@ -5,13 +12,8 @@
 #include "Crosshair.h"
 #include "Projectile.h"
 #include "Powerup.h"
-#include <SDL.h>
-#include <map>
-#include <vector>
 #include "Map.h"
 #include "GUI.h"
-#include <iostream>
-#include <fstream>
 #ifndef WORLD_H
 #define WORLD_H
 
@@ -27,7 +29,9 @@ class World{
   ~World();
   void draw(SDL_Renderer &, const int);
   void update();
-  
+  Player getPlayer();
+  void setPlayer(Player player); //only sets weapon and health
+
   int input(std::map<char,bool> &, int, int, bool, bool);
  private:
   Camera _cam;
@@ -38,8 +42,6 @@ class World{
   GUI* _GUI;
   std::vector<Projectile*> _projectiles;
   std::vector<Powerup*> _powerups;
-  
-
 };
 
 #endif

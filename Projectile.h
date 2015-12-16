@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <map>
 #include <SDL_image.h>
+#include <iostream>
 #ifndef PROJ_H
 #define PROJ_H
 
@@ -15,25 +16,15 @@ class Projectile{
 
   int getX();
   int getY();
-  void setPos(int x, int y){
-    _x = x;
-    _y = y;
-    _pos.x = x;
-    _pos.y = y;
-  }
+  void setPos(int x, int y);
   int getWidth();
   int getHeight();
   int getDamage();
-  void setFriendly() {
-	  _friendly = true;
-  }
-  bool isFriendly() {
-	  return _friendly;
-  }
+  void setFriendly();
+  bool isFriendly();
+
   double getMoveSpeed();
-  SDL_Rect getRect(){
-    return _pos;
-  }
+  SDL_Rect getRect();
 
   double getDir();
   void setDir(double radians);

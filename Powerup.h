@@ -24,9 +24,7 @@ class Powerup{
   int getY();
   int getValue();
   int getType();
-  SDL_Rect getRect(){
-    return _pos;
-  }
+  SDL_Rect getRect();
 
   void draw(SDL_Renderer &, int ,int);
  

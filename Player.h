@@ -1,4 +1,5 @@
 #include <map>
+#include <math.h>
 #include "Character.h"
 
 #ifndef PLAYER_H

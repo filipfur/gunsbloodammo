@@ -17,9 +17,7 @@ class Weapon
 
   void update();
 
-  SDL_Surface* getIcon() {
-	  return _icon;
-  }
+  SDL_Surface* getIcon();
 
   int getAmmo();
   int getMaxAmmo();
@@ -28,9 +26,8 @@ class Weapon
   void decAmmo();
   void incAmmo(int x);
 
-  bool isReady(){
-    return _ready;
-  }
+  bool isReady();
+
   SDL_Surface* getSurface();
 
 

@@ -1,8 +1,8 @@
-#include <SDL.h>
 #include <map>
+#include <SDL.h>
+#include <SDL_image.h>
 #include "Weapon.h"
 #include "Projectile.h"
-#include <SDL_image.h>
 #ifndef CHAR_H
 #define CHAR_H
 
@@ -11,20 +11,12 @@ class Character{
 
   int getX();
   int getY();
-  void setX(int x){
-    _x = x;
-	_pos.x = x;
-  }
-  void setY(int y){
-    _y = y;
-	_pos.y = y;
-  }
+  void setX(int x);
+  void setY(int y);
   int getWidth();
   int getHeight();
   int getHp();
-  int getMaxHp(){
-    return _hpMax;
-  }
+  int getMaxHp();
   double getSpeed();
   Weapon getWeapon();
   int getAmmo();
@@ -32,27 +24,19 @@ class Character{
 
   void setWeapon(Weapon weapon);
   void setSpeed(double speed);
+  void setHP(int i);
 
   Projectile* shoot(double, bool friendly = false);
   void decHp(int damage);
   void incHp(int hp_gain);
   void decAmmo();
   void incAmmo(int ammo_gain);
-  void setAngle(double angle){
-    _angle = angle;
-  }
-  void setMoving(bool b) {
-	  _move = b;
-  }
-  SDL_Rect getRect(){
-    return _rect;
-  }
+  void setAngle(double angle);
+  void setMoving(bool b);
+  SDL_Rect getRect();
 
   void draw(SDL_Renderer &, int, int);
   void update();
-
-  //int input(std::map<char,bool> &);
-  //moved to Player class
 
  protected:
 
