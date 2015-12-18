@@ -24,6 +24,8 @@ class Menu{
 
   int input(std::map<char,bool> &);
 
+  int get_difficulty();
+
  private:
 
   std::vector<const char*> _currentItems, _menuItems,
@@ -34,5 +36,6 @@ class Menu{
   SDL_Color _titleColor1, _titleColor2, _breadColor,
     _highlightColor, _bgColor, _crosshairColor;
   int _currentSelection, _subMenu, _currentCrosshairColor;
+  int _difficulty = 0;
 
 };

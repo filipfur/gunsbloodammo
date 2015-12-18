@@ -182,7 +182,15 @@ int Menu::input(std::map<char, bool> &keys){
 	  return 1;
       }
       else if(_currentSelection == HELP){
-	if(_subMenu == 2){
+	if(_subMenu == 2)
+	{
+	  _difficulty++;
+	  if (_difficulty > 9){
+	    _difficulty = 0;
+	  }
+	  cout << "difficulty = " << _difficulty;
+	}
+	else if(_subMenu == 3){
 	  _subMenu = 0;
 	  _currentItems = _menuItems;
 	  _currentSelection = 1;
@@ -206,9 +214,17 @@ int Menu::input(std::map<char, bool> &keys){
 	}
       }
       else if(_currentSelection == OPTIONS){
+	if(_subMenu == 2){
+	  _subMenu = 0;
+	  _currentItems = _menuItems;
+	  _currentSelection = 1;
+	}
+	else
+	{
 	_subMenu = 2;
 	_currentItems = _optionItems;
 	_currentSelection = 1;
+	}
       }
       else if(_currentSelection == HIGHSCORE){
 	_subMenu = 3;
@@ -229,4 +245,9 @@ int Menu::input(std::map<char, bool> &keys){
 
   return 0;
 
+}
+
+
+int Menu::get_difficulty(){
+  return _difficulty;
 }
